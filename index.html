@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- === Primary SEO Meta Tags === -->
+    <title>MustWatchHub | Modern Entertainment Blog</title>
+    <meta name="description" content="MustWatchHub is a modern tech blog covering web development, SEO strategies, startup news, and digital monetization guides. Elevate your tech journey with us.">
+    <meta name="keywords" content="Entertainment, Facts, Mysteries, Movies, Series, Unexplained Phenomena, Pop Culture, MustWatchHub Blog">
+    <meta name="author" content="MustWatchHub Publishing">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <link rel="canonical" href="https://mustwatchhub.com/">
+
+    <!-- === Open Graph / Facebook === -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mustwatchhub.com/">
+    <meta property="og:title" content="MustWatchHub | Modern Tech & Development Blog">
+    <meta property="og:description" content="MustWatchHub is a modern tech blog covering web development, SEO strategies, startup news, and digital monetization guides.">
+    <meta property="og:image" content="https://placehold.co/1200x630/2563eb/ffffff?text=MustWatchHub+Blog">
+
+    <!-- === Twitter === -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://mustwatchhub.com/">
+    <meta name="twitter:title" content="MustWatchHub | Modern Tech & Development Blog">
+    <meta name="twitter:description" content="MustWatchHub is a modern tech blog covering web development, SEO strategies, startup news, and digital monetization guides.">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/2563eb/ffffff?text=MustWatchHub+Blog">
+
+    <!-- === Theme Colors for Mobile Browsers === -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+
+    <!-- === JSON-LD Schema Markup for Google === -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mustwatchhub.com/"
+      },
+      "headline": "MustWatchHub | Modern Tech & Development Blog",
+      "description": "MustWatchHub is a modern tech blog covering web development, SEO strategies, startup news, and digital monetization guides.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "MustWatchHub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://mustwatchhub.com/logo.png"
+        }
+      }
+    }
+    </script>
+    
+    <!-- Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Prevent FOUC for dark mode -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="text-slate-800 transition-colors duration-300">
+
+    <!-- === Fixed Rail Ads for Blank Side Spaces (Wide Screens Only) === -->
+    <aside class="rail-ad-left">
+        <div class="ad-space w-[300px] h-[600px] rounded-xl shadow-sm border border-slate-200 bg-white border-0 bg-transparent">
+            <span class="text-xs font-bold tracking-wider text-slate-400 uppercase mb-1">Ad</span>
+            <span class="text-[10px] text-slate-500">Half Page Ad (300x600)</span>
+        </div>
+    </aside>
+    
+    <aside class="rail-ad-right">
+        <div class="ad-space w-[160px] h-[600px] rounded-xl shadow-sm border border-slate-200 bg-white border-0 bg-transparent">
+            <span class="text-xs font-bold tracking-wider text-slate-400 uppercase mb-1">Ad</span>
+            <span class="text-[10px] text-slate-500">Wide Skyscraper (160x600)</span>
+        </div>
+    </aside>
+    <!-- ================================================================ -->
+
+    <!-- Glassmorphism Header -->
+    <header class="fixed w-full top-0 z-[110] bg-white/70 backdrop-blur-md border-b border-slate-200/50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <a href="#" id="header-logo" class="flex-shrink-0 flex items-center gap-2 group cursor-pointer" aria-label="MustWatchHub Home">
+                    <div class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-500/30 group-hover:bg-brand-700 transition-colors">
+                        M
+                    </div>
+                    <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 m-0">Must<span class="text-brand-600">Watch</span></h1>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex flex-1 mx-4 relative items-center group min-w-0">
+                    <div id="scroll-left-container" class="absolute left-0 top-0 bottom-0 w-16 z-10 hidden items-center justify-start pointer-events-none">
+                        <button id="scroll-left" class="w-7 h-7 flex items-center justify-center rounded-full bg-white shadow-md border border-slate-100 text-slate-400 hover:text-brand-600 transition-all duration-300 pointer-events-auto ml-1" aria-label="Scroll Left">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                    </div>
+
+                    <nav id="category-nav"
+                        class="flex-1 w-full overflow-x-auto no-scrollbar flex items-center space-x-1 scroll-smooth px-8 py-2 cursor-grab select-none"
+                        aria-label="Main Navigation">
+                        <a href="#" class="px-4 py-2 text-sm font-semibold text-brand-600 bg-brand-50 rounded-full transition-all whitespace-nowrap shrink-0">Home</a>
+                        <a href="#cat-entertainment" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-50 rounded-full transition-all whitespace-nowrap shrink-0">Entertainment</a>
+                    </nav>
+
+                    <div id="scroll-right-container" class="absolute right-0 top-0 bottom-0 w-16 z-10 flex items-center justify-end pointer-events-none">
+                        <button id="scroll-right" class="w-7 h-7 flex items-center justify-center rounded-full bg-white shadow-md border border-slate-100 text-slate-400 hover:text-brand-600 transition-all duration-300 pointer-events-auto mr-1" aria-label="Scroll Right">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search & Action (Desktop) -->
+                <div class="hidden md:flex items-center space-x-3 pl-4 border-l border-slate-200">
+                    
+                    <!-- Custom Animated Day/Night Toggle (Desktop) -->
+                    <button id="theme-toggle" class="relative w-16 h-8 rounded-full focus:outline-none overflow-hidden transition-colors duration-500 bg-[#5eb1ef] dark:bg-[#0f172a] shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] flex-shrink-0" aria-label="Toggle Dark Mode">
+                        <!-- Light BG (Clouds) -->
+                        <div class="absolute inset-0 opacity-100 dark:opacity-0 transition-opacity duration-500 pointer-events-none">
+                            <svg class="absolute bottom-0 w-full h-4 text-white" viewBox="0 0 100 30" fill="currentColor" preserveAspectRatio="none">
+                                <path d="M0,30 L100,30 L100,20 Q90,10 80,20 Q70,5 55,18 Q45,8 35,20 Q20,10 10,20 Q5,15 0,20 Z" opacity="0.9"/>
+                                <path d="M0,30 L100,30 L100,25 Q90,15 80,25 Q70,10 55,23 Q45,13 35,25 Q20,15 10,25 Q5,20 0,25 Z" opacity="0.6"/>
+                            </svg>
+                        </div>
+                        <!-- Dark BG (Stars) -->
+                        <div class="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-500 pointer-events-none">
+                            <div class="absolute top-1.5 left-2 w-0.5 h-0.5 bg-white rounded-full shadow-[0_0_2px_white]"></div>
+                            <div class="absolute top-4 left-4 w-1 h-1 bg-white rounded-full shadow-[0_0_3px_white]"></div>
+                            <div class="absolute top-2 left-7 w-0.5 h-0.5 bg-white rounded-full shadow-[0_0_2px_white]"></div>
+                            <div class="absolute top-5 left-8 w-0.5 h-0.5 bg-white rounded-full shadow-[0_0_2px_white]"></div>
+                        </div>
+                        <!-- Knob -->
+                        <div class="absolute left-1 top-1 w-6 h-6 rounded-full transform transition-transform duration-500 dark:translate-x-8 bg-[#ffcf33] dark:bg-[#c4c9d4] shadow-[0_1px_3px_rgba(0,0,0,0.4)] flex items-center justify-center overflow-hidden">
+                            <!-- Moon Craters -->
+                            <div class="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-500">
+                                <div class="absolute top-1 left-3 w-1.5 h-1.5 bg-[#94a3b8] rounded-full"></div>
+                                <div class="absolute top-3 left-1 w-1.5 h-1.5 bg-[#94a3b8] rounded-full"></div>
+                                <div class="absolute top-4 left-4 w-1 h-1 bg-[#94a3b8] rounded-full"></div>
+                            </div>
+                        </div>
+                    </button>
+
+                    <div id="search-wrapper" class="relative flex items-center transition-all duration-300 w-8 overflow-visible ml-2">
+                        <button id="search-icon-btn" class="absolute left-0 text-slate-400 hover:text-brand-600 transition-colors z-10 w-8 h-8 flex items-center justify-center cursor-pointer" aria-label="Open Search">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </button>
+                        <input type="text" id="search-input" class="w-full h-10 pl-10 pr-10 bg-slate-100 border-transparent rounded-full text-sm focus:bg-white focus:border-brand-300 focus:ring-2 focus:ring-brand-100 transition-all opacity-0 cursor-pointer pointer-events-none relative z-10" placeholder="Search articles..." aria-label="Search field">
+                        <button id="desktop-search-clear" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-600 p-1 hidden focus:outline-none transition-colors z-20" aria-label="Clear search">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button & Theme toggle -->
+                <div class="md:hidden flex items-center space-x-2">
+                    
+                    <!-- Custom Animated Day/Night Toggle (Mobile) -->
+                    <button id="mobile-theme-toggle" class="relative w-16 h-8 rounded-full focus:outline-none overflow-hidden transition-colors duration-500 bg-[#5eb1ef] dark:bg-[#0f172a] shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)] flex-shrink-0 mr-2" aria-label="Toggle Dark Mode">
+                        <!-- Light BG (Clouds) -->
+                        <div class="absolute inset-0 opacity-100 dark:opacity-0 transition-opacity duration-500 pointer-events-none">
+                            <svg class="absolute bottom-0 w-full h-4 text-white" viewBox="0 0 100 30" fill="currentColor" preserveAspectRatio="none">
+                                <path d="M0,30 L100,30 L100,20 Q90,10 80,20 Q70,5 55,18 Q45,8 35,20 Q20,10 10,20 Q5,15 0,20 Z" opacity="0.9"/>
+                                <path d="M0,30 L100,30 L100,25 Q90,15 80,25 Q70,10 55,23 Q45,13 35,25 Q20,15 10,25 Q5,20 0,25 Z" opacity="0.6"/>
+                            </svg>
+                        </div>
+                        <!-- Dark BG (Stars) -->
+                        <div class="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-500 pointer-events-none">
+                            <div class="absolute top-1.5 left-2 w-0.5 h-0.5 bg-white rounded-full shadow-[0_0_2px_white]"></div>
+                            <div class="absolute top-4 left-4 w-1 h-1 bg-white rounded-full shadow-[0_0_3px_white]"></div>
+                            <div class="absolute top-2 left-7 w-0.5 h-0.5 bg-white rounded-full shadow-[0_0_2px_white]"></div>
+                            <div class="absolute top-5 left-8 w-0.5 h-0.5 bg-white rounded-full shadow-[0_0_2px_white]"></div>
+                        </div>
+                        <!-- Knob -->
+                        <div class="absolute left-1 top-1 w-6 h-6 rounded-full transform transition-transform duration-500 dark:translate-x-8 bg-[#ffcf33] dark:bg-[#c4c9d4] shadow-[0_1px_3px_rgba(0,0,0,0.4)] flex items-center justify-center overflow-hidden">
+                            <!-- Moon Craters -->
+                            <div class="absolute inset-0 opacity-0 dark:opacity-100 transition-opacity duration-500">
+                                <div class="absolute top-1 left-3 w-1.5 h-1.5 bg-[#94a3b8] rounded-full"></div>
+                                <div class="absolute top-3 left-1 w-1.5 h-1.5 bg-[#94a3b8] rounded-full"></div>
+                                <div class="absolute top-4 left-4 w-1 h-1 bg-[#94a3b8] rounded-full"></div>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button id="mobile-menu-btn" class="text-slate-600 p-2" aria-label="Open mobile menu">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t border-slate-100 absolute w-full shadow-xl max-h-[70vh] overflow-y-auto">
+            <div class="p-4 border-b border-slate-100">
+                <div class="relative">
+                    <svg class="w-5 h-5 absolute left-3 top-2.5 text-slate-400 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <input type="text" id="mobile-search-input" class="w-full h-10 pl-10 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:border-brand-300 focus:ring-2 focus:ring-brand-100 transition-all relative z-10" placeholder="Search articles..." aria-label="Search field mobile">
+                    <button id="mobile-search-clear" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-600 p-1 hidden focus:outline-none transition-colors z-20" aria-label="Clear search">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="px-4 py-4 space-y-1">
+                <a href="#" class="block px-4 py-2.5 rounded-xl bg-brand-50 text-brand-600 font-semibold text-base">Home</a>
+                <a href="#cat-entertainment"
+                    class="block px-4 py-2.5 rounded-xl text-slate-600 font-medium hover:bg-slate-50">Entertainment</a>
+                <a href="#cat-facts" class="block px-4 py-2.5 rounded-xl text-slate-600 font-medium hover:bg-slate-50">Facts &
+                    Mysteries</a>
+            </div>
+            </div>
+    </header>
+
+    <!-- Content Wrapper -->
+    <div class="pt-28 pb-12">
+        
+        <!-- Ad Placement: Top of Featured Section -->
+        <div id="main-top-ad" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 overflow-hidden">
+            <div class="ad-space w-full max-w-full h-[90px] sm:h-[120px]">
+                <span class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-1">Advertisement</span>
+                <span class="text-xs text-slate-500">Top Leaderboard (728x90)</span>
+            </div>
+        </div>
+
+        <!-- 4 Featured Posts Magazine Section -->
+        <div id="hero-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Post 1 -->
+                <article class="group relative md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden shadow-sm img-hover-zoom min-h-[350px] lg:min-h-[500px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent z-10"></div>
+                    <img src="https://res.cloudinary.com/dse6xdm83/image/upload/q_auto/f_auto/v1782018698/91357926-9f9c-45d9-b0f4-272027096c92.png" alt="The Ultimate Guide to Modern Web Architecture" width="800" height="800" fetchpriority="high" decoding="async" class="absolute inset-0 w-full h-full object-cover z-0">
+                    <div class="absolute top-6 left-6 z-20">
+                        <span class="px-3 py-1.5 bg-brand-600 text-white text-xs font-bold rounded-lg shadow-lg">ENTERTAINMENT</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-6 lg:p-8 z-20">
+                        <div class="flex items-center gap-3 text-slate-300 text-xs font-body mb-3">
+                            <span>June 16, 2026</span>
+                        </div>
+                        <h2 class="text-2xl lg:text-4xl font-extrabold text-white leading-tight mb-4 group-hover:text-brand-400 transition-colors">
+                            <a href="Entertainment/thriller-breakdowns.html" class="before:absolute before:inset-0">The Shadows Within: Deep Psychological Breakdowns of Us, Midsommar, and The Room</a>
+                        </h2>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="group relative md:col-span-2 rounded-3xl overflow-hidden shadow-sm img-hover-zoom min-h-[250px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent z-10"></div>
+                    <img src="https://res.cloudinary.com/dse6xdm83/image/upload/q_auto/f_auto/v1782020488/a843525d-c074-4823-9a59-75ff63e82545.png" alt="How AI is Reshaping Startups" width="800" height="400" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover z-0">
+                    <div class="absolute top-5 left-5 z-20">
+                        <span class="px-3 py-1 bg-purple-600 text-white text-xs font-bold rounded-lg shadow-lg">ENTERTAINMENT</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-5 lg:p-6 z-20">
+                        <div class="flex items-center gap-2 text-slate-300 text-xs font-body mb-2">
+                            <span>June 15, 2026</span>
+                        </div>
+                        <h3 class="text-xl lg:text-2xl font-extrabold text-white leading-tight group-hover:text-purple-400 transition-colors">
+                            <a href="Entertainment/underrated-scifi-horror-hidden-gems.html" class="before:absolute before:inset-0">Beyond the Mainstream: 4 Underrated Sci-Fi and Horror Masterpieces You Need to Stream Tonight</a>
+                        </h3>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="group relative rounded-3xl overflow-hidden shadow-sm img-hover-zoom min-h-[250px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent z-10"></div>
+                    <img src="https://res.cloudinary.com/dse6xdm83/image/upload/v1782222734/1fa8dfb7-2007-403d-8281-d868bad9cb82.png" alt="Guide to Passive Income" width="400" height="400" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover z-0">
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="px-2.5 py-1 bg-emerald-600 text-white text-xs font-bold rounded-md shadow-lg">Technology & Web</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-5 z-20">
+                        <h3 class="text-lg font-bold text-white leading-tight group-hover:text-emerald-400 transition-colors">
+                            <a href="Technology & Web/your-optimized-slug-here.html" class="before:absolute before:inset-0">Crushing Core Web Vitals: Optimize LCP and CLS with Cloudflare and Tailwind CSS</a>
+                        </h3>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="group relative rounded-3xl overflow-hidden shadow-sm img-hover-zoom min-h-[250px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent z-10"></div>
+                    <img src="https://res.cloudinary.com/dse6xdm83/image/upload/q_auto/f_auto/v1782040752/32a66fac-fc07-4b04-9d70-2cc289616ac2.png" alt="Mastering Next.js" width="400" height="400" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover z-0">
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="px-2.5 py-1 bg-amber-600 text-white text-xs font-bold rounded-md shadow-lg">Mobile</span>
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full p-5 z-20">
+                        <h3 class="text-lg font-bold text-white leading-tight group-hover:text-amber-400 transition-colors">
+                            <a href="Mobile/budget-phones-2026.html" class="before:absolute before:inset-0">The Best Mobile Phone in Low Price (2026): Stop Overpaying for Flagships</a>
+                        </h3>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- Ad Placement: Bottom of Featured Section -->
+        <div id="main-bottom-ad" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 overflow-hidden">
+            <div class="ad-space w-full max-w-full h-[90px] sm:h-[120px]">
+                <span class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-1">Advertisement</span>
+                <span class="text-xs text-slate-500">Bottom Leaderboard (728x90)</span>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                
+                <!-- Left Column: Blog Posts Feed -->
+                <main class="lg:col-span-8">
+                    
+                    <!-- Search Results Header -->
+                    <div id="search-results-header" class="hidden mb-10 overflow-hidden">
+                        <div class="ad-space w-full max-w-full h-[90px] sm:h-[120px] mb-8">
+                            <span class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-1">Advertisement</span>
+                            <span class="text-xs text-slate-500">Top Leaderboard (728x90)</span>
+                        </div>
+                        <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2 border-b-2 border-slate-100 pb-3">
+                            Search Results: <span id="search-query-display" class="text-brand-600 font-medium text-lg mt-1"></span>
+                        </h3>
+                    </div>
+
+                    <!-- ============================================== -->
+                    <!-- CATEGORY 1: ENTERTAINMENT -->
+                    <div id="cat-entertainment" class="mb-14 scroll-mt-24 category-section">
+                        <div class="ad-space w-full max-w-full h-[90px] sm:h-[120px] mb-8">
+                            <span class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-1">Advertisement</span>
+                            <span class="text-xs text-slate-500">Category Top Ad</span>
+                        </div>
+                        <div class="flex items-end justify-between mb-6 border-b-2 border-slate-100 pb-3">
+                            <div><h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Entertainment</h2></div>
+                        </div>
+                        <div class="space-y-6 posts-container">
+                            <!-- ARTICLE 1 -->
+                            <article class="group flex flex-col sm:flex-row gap-5 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative post-item">
+                                <div class="w-full sm:w-1/3 h-48 sm:h-auto rounded-xl img-hover-zoom overflow-hidden shrink-0">
+                                    <img src="https://res.cloudinary.com/dse6xdm83/image/upload/q_auto/f_auto/v1782018698/91357926-9f9c-45d9-b0f4-272027096c92.png" alt="Movies" width="600" height="400" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col justify-center flex-1 py-1">
+                                    <div class="flex items-center gap-2 mb-2 text-xs font-body text-slate-500">
+                                        <span class="px-2.5 py-1 bg-brand-50 text-brand-600 font-extrabold uppercase rounded-md tracking-wide">ENTERTAINMENT</span><span></span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2 leading-snug group-hover:text-brand-600 transition-colors">
+                                        <a href="Entertainment/thriller-breakdowns.html" class="before:absolute before:inset-0">The Shadows Within: Deep Psychological Breakdowns of Us, Midsommar, and The Room</a>
+                                    </h3>
+                                    <p class="text-slate-600 text-sm line-clamp-2 mb-4 font-body">Dive deep into the hidden meanings, psychological symbols, and thematic breakdowns behind three iconic psychological thrillers: Jordan Peele's Us, Ari Aster's Midsommar, and Christian Volckman's The Room.</p>
+                                    <span class="mt-auto inline-flex items-center text-sm font-bold text-brand-600">Read Article &rarr;</span>
+                                </div>
+                            </article>
+                            <!-- ARTICLE 2 -->
+                            <article class="group flex flex-col sm:flex-row gap-5 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative post-item">
+                                <div class="w-full sm:w-1/3 h-48 sm:h-auto rounded-xl img-hover-zoom overflow-hidden shrink-0">
+                                    <img src="https://res.cloudinary.com/dse6xdm83/image/upload/q_auto/f_auto/v1782020488/a843525d-c074-4823-9a59-75ff63e82545.png" alt="Music" width="600" height="400" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col justify-center flex-1 py-1">
+                                    <div class="flex items-center gap-2 mb-2 text-xs font-body text-slate-500">
+                                        <span class="px-2.5 py-1 bg-brand-50 text-brand-600 font-extrabold uppercase rounded-md tracking-wide">ENTERTAINMENT</span><span></span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2 leading-snug group-hover:text-brand-600 transition-colors">
+                                        <a href="Entertainment/underrated-scifi-horror-hidden-gems.html" class="before:absolute before:inset-0">Top Hidden Gems: 4 Underrated Sci-Fi & Horror Masterpieces</a>
+                                    </h3>
+                                    <p class="text-slate-600 text-sm line-clamp-2 mb-4 font-body">Tired of predictable plots? Explore these 4 highly underrated sci-fi and cosmic horror hidden gems that will keep you guessing until the final frame.</p>
+                                    <span class="mt-auto inline-flex items-center text-sm font-bold text-brand-600">Read Article &rarr;</span>
+                                </div>
+                            </article>
+                            <article class="group flex flex-col sm:flex-row gap-5 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative post-item">
+                                <div class="w-full sm:w-1/3 h-48 sm:h-auto rounded-xl img-hover-zoom overflow-hidden shrink-0">
+                                    <img src="https://placehold.co/600x400/be123c/ffffff?text=Gaming" alt="Gaming" width="600" height="400" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col justify-center flex-1 py-1">
+                                    <div class="flex items-center gap-2 mb-2 text-xs font-body text-slate-500">
+                                        <span class="px-2.5 py-1 bg-brand-50 text-brand-600 font-extrabold uppercase rounded-md tracking-wide">ENTERTAINMENT</span><span></span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2 leading-snug group-hover:text-brand-600 transition-colors">
+                                        <a href="#" class="before:absolute before:inset-0">Next-Gen Console Wars: Which System Won 2026?</a>
+                                    </h3>
+                                    <p class="text-slate-600 text-sm line-clamp-2 mb-4 font-body">A deep dive into the hardware, exclusives, and services that defined this year's gaming scene.</p>
+                                    <span class="mt-auto inline-flex items-center text-sm font-bold text-brand-600">Read Article &rarr;</span>
+                                </div>
+                            </article>
+                            <article class="group flex flex-col sm:flex-row gap-5 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative post-item">
+                                <div class="w-full sm:w-1/3 h-48 sm:h-auto rounded-xl img-hover-zoom overflow-hidden shrink-0">
+                                    <img src="https://placehold.co/600x400/9f1239/ffffff?text=Shows" alt="Shows" width="600" height="400" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col justify-center flex-1 py-1">
+                                    <div class="flex items-center gap-2 mb-2 text-xs font-body text-slate-500">
+                                        <span class="px-2.5 py-1 bg-brand-50 text-brand-600 font-extrabold uppercase rounded-md tracking-wide">ENTERTAINMENT</span><span></span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2 leading-snug group-hover:text-brand-600 transition-colors">
+                                        <a href="#" class="before:absolute before:inset-0">Streaming Guide: Binge-Worthy Series for the Weekend</a>
+                                    </h3>
+                                    <p class="text-slate-600 text-sm line-clamp-2 mb-4 font-body">Cancel your plans. These griping dramas and hilarious comedies demand your attention.</p>
+                                    <span class="mt-auto inline-flex items-center text-sm font-bold text-brand-600">Read Article &rarr;</span>
+                                </div>
+                            </article>
+                            <article class="group flex flex-col sm:flex-row gap-5 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative post-item">
+                                <div class="w-full sm:w-1/3 h-48 sm:h-auto rounded-xl img-hover-zoom overflow-hidden shrink-0">
+                                    <img src="https://placehold.co/600x400/ec4899/ffffff?text=Bonus" alt="Bonus" width="600" height="400" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex flex-col justify-center flex-1 py-1">
+                                    <div class="flex items-center gap-2 mb-2 text-xs font-body text-slate-500">
+                                        <span class="px-2.5 py-1 bg-brand-50 text-brand-600 font-extrabold uppercase rounded-md tracking-wide">ENTERTAINMENT</span><span></span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-2 leading-snug group-hover:text-brand-600 transition-colors">
+                                        <a href="#" class="before:absolute before:inset-0">This is the 5th Post (Hidden by Default)</a>
+                                    </h3>
+                                    <p class="text-slate-600 text-sm line-clamp-2 mb-4 font-body">This post will only appear when the user clicks the Explore More button below.</p>
+                                    <span class="mt-auto inline-flex items-center text-sm font-bold text-brand-600">Read Article &rarr;</span>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <button class="load-more-btn inline-flex items-center px-6 py-2.5 rounded-xl bg-slate-50 text-slate-700 font-bold hover:bg-brand-50 hover:text-brand-600 border border-slate-200 transition-all">Explore more in Entertainment &rarr;</button>
+                        </div>
+
+                        <!-- Top Premium Billboard / Leaderboard Ad (Optimized for Visual Balance) -->
+                        <div class="w-full mb-10 overflow-hidden flex justify-center mt-4">
+                            <div class="ad-space w-full max-w-[970px] h-[90px] sm:h-[200px] lg:h-[250px] rounded-2xl bg-white border border-slate-200 dark:border-slate-700 transition-all duration-300 shadow-sm">
+                                <span class="text-xs font-bold tracking-wider text-slate-400 uppercase mb-1">Advertisement</span>
+                                <span class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 text-center px-4">
+                                    Premium Responsive Ad Slot (Up to 970x250 Billboard)
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ad-space w-full max-w-full h-[90px] sm:h-[120px] mt-8">
+                        <span class="text-sm font-bold tracking-wider text-slate-400 uppercase mb-1">Advertisement</span>
+                        <span class="text-xs text-slate-500">Category Bottom Ad</span>
+                    </div>
+
+                </main>
+
+                <!-- Right Column: Sidebar -->
+                <aside class="lg:col-span-4 space-y-8 mt-12 lg:mt-0 relative">
+                    
+                    <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="flex justify-center">
+                            <div class="ad-space w-[300px] max-w-full h-[250px]">
+                                <span class="text-xs font-bold tracking-wider text-slate-400 uppercase mb-1">Ad 1</span>
+                                <span class="text-[10px] text-slate-500">Medium Rectangle (300x250)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-100">
+                        <h3 class="text-lg font-extrabold text-slate-900 mb-6 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            Trending Now
+                        </h3>
+                        <div class="space-y-5">
+                            <a href="#" class="group flex gap-4 items-center relative z-[50]">
+                                <span class="text-3xl font-extrabold text-slate-200 group-hover:text-brand-100 transition-colors">01</span>
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-800 group-hover:text-brand-600 leading-snug line-clamp-2">The Shadows Within: Deep Psychological Breakdowns</h4>
+                                    <p class="text-xs text-slate-400 mt-1 font-body">Entertainment</p>
+                                </div>
+                            </a>
+                            <a href="#" class="group flex gap-4 items-center relative z-[50]">
+                                <span class="text-3xl font-extrabold text-slate-200 group-hover:text-brand-100 transition-colors">03</span>
+                                <div>
+                                    <h4 class="text-sm font-bold text-slate-800 group-hover:text-brand-600 leading-snug line-clamp-2">Top Hidden Gems: 4 Underrated Sci-Fi Masterpieces</h4>
+                                    <p class="text-xs text-slate-400 mt-1 font-body">Entertainment</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
+                        <div class="flex justify-center">
+                            <div class="ad-space w-[300px] max-w-full h-[250px]">
+                                <span class="text-xs font-bold tracking-wider text-slate-400 uppercase mb-1">Ad 1</span>
+                                <span class="text-[10px] text-slate-500">Medium Rectangle (300x250)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tags/Categories Widget -->
+                    <div class="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-slate-100 relative z-[50]">
+                        <h3 class="text-lg font-extrabold text-slate-900 mb-6">Categories</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#cat-entertainment" class="px-3 py-1.5 bg-slate-100 hover:bg-brand-50 hover:text-brand-600 text-slate-600 text-sm font-medium rounded-lg transition-colors">Entertainment</a>
+                        </div>
+                    </div>
+
+                    <!-- Sticky Sidebar Ad Placement -->
+                    <div class="sticky top-24 pt-4 pb-10 space-y-6">
+                        <div class="flex justify-center">
+                            <div class="ad-space w-[300px] max-w-full h-[600px] rounded-xl">
+                                <span class="text-xs font-bold tracking-wider text-slate-400 uppercase mb-1">Sticky Ad</span>
+                                <span class="text-[10px] text-slate-500">Half Page Ad (300x600)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern AdSense Friendly Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-10 relative z-[105]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-12">
+                
+                <!-- Brand Info & Contact (Spans 4 cols) -->
+                <div class="md:col-span-12 lg:col-span-4">
+                    <a href="#" class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4 inline-block">Tech<span class="text-brand-600">Nova</span></a>
+                    <p class="text-sm text-slate-500 font-body leading-relaxed mb-6 pr-4">
+                        MustWatchHub is your ultimate destination for the latest insights in technology, personal finance, health, and lifestyle. We empower readers with well-researched, high-quality content to navigate the modern world.
+                    </p>
+                    
+                    <!-- Contact Info -->
+                    <div class="mb-6">
+                        <h4 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider mb-3">Contact Us</h4>
+                        <a href="mailto:contact@MustWatchHub.com" class="flex items-center gap-2 text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            contact@MustWatchHub.com
+                        </a>
+                    </div>
+
+                    <!-- Social Media Icons -->
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-brand-50 hover:text-brand-600 transition-colors" aria-label="Facebook">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-brand-50 hover:text-brand-600 transition-colors" aria-label="Twitter">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-brand-50 hover:text-brand-600 transition-colors" aria-label="Instagram">
+                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-brand-50 hover:text-brand-600 transition-colors" aria-label="LinkedIn">
+                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Categories (Spans 5 cols) -->
+                <div class="md:col-span-8 lg:col-span-5">
+                    <h4 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider mb-5">Featured Categories</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#cat-entertainment" class="text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">Entertainment</a></li>
+                    </ul>
+                </div>
+
+                <!-- Essential Legal Pages (CRITICAL FOR ADSENSE) (Spans 3 cols) -->
+                <div class="md:col-span-4 lg:col-span-3">
+                    <h4 class="text-sm font-extrabold text-slate-900 uppercase tracking-wider mb-5">Legal & Info</h4>
+                    <ul class="space-y-3">
+                        <li><a href="about.html" class="text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">Contact Us</a></li>
+                        <li><a href="privacy.html" class="text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">Terms of Service</a></li>
+                        <li><a href="disclaimer.html" class="text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">Disclaimer</a></li>
+                        <li><a href="cookie.html" class="text-sm text-slate-500 hover:text-brand-600 font-body transition-colors">Cookie Policy</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Copyright & Credits -->
+            <div class="border-t border-slate-100 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 pb-20 md:pb-8">
+                <p class="text-sm text-slate-500 font-body">&copy; 2026 MustWatchHub Publishing. All rights reserved.</p>
+                <div class="flex space-x-6 text-sm text-slate-500 font-body">
+                    <span>Designed for Search Engines & AdSense Compatibility</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Bottom Anchor Ad (High Visibility) -->
+    <div id="anchor-ad" class="fixed bottom-0 left-0 w-full bg-white dark:bg-[#0f172a] border-t border-slate-200 dark:border-slate-700 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-[100] transition-transform duration-300 transform translate-y-0">
+        <div class="w-full flex justify-center items-center py-2 h-[70px] sm:h-[100px]">
+            <div class="relative w-full max-w-[728px] h-[50px] sm:h-[90px] mx-4">
+                <!-- Close Button securely attached to the top-right of the Ad block itself -->
+                <button onclick="document.getElementById('anchor-ad').style.transform = 'translateY(100%)'" class="absolute -top-3 -right-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full w-7 h-7 flex items-center justify-center focus:outline-none shadow-md z-10 transition-colors" aria-label="Close Ad">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div class="ad-space w-full h-full rounded-md shadow-inner !border-slate-200 dark:!border-slate-600">
+                    <span class="text-xs font-bold tracking-wider text-slate-400 uppercase">Fixed Anchor Ad</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
