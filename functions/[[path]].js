@@ -48,12 +48,16 @@ export async function onRequest(context) {
         return env.ASSETS.fetch(request);
     }
 
-    // 🚀 ২. সাধারণ পেজগুলোতে কোনো কৃত্রিম রিরাইট ছাড়াই সরাসরি রিকোয়েস্ট পাস হবে
     const cleanPath = path.toLowerCase().replace(/\.html$/i, '').replace(/\/$/, '');
     const staticPages = ['', '/index', '/contact', '/dmca', '/privacy', '/disclaimer', '/404'];
 
     if (staticPages.includes(cleanPath)) {
-        return env.ASSETS.fetch(request);
+        let res = await env.ASSETS.fetch(request);
+        // যদি সার্ভারে ফাইলটি এখনও বড় হাতের DMCA.html নামে থাকে, তাহলে এটি স্বয়ংক্রিয়ভাবে হ্যান্ডেল করবে
+        if (res.status === 404 && cleanPath === '/dmca') {
+            return env.ASSETS.fetch(new URL('/DMCA.html', request.url));
+        }
+        return res;
     }
 
     // 🚀 ৩. পুরনো ?movie=slug লিংকগুলোকে .html লিংকে ৩০১ রিডাইরেক্ট
