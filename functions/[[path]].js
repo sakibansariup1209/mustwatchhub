@@ -96,7 +96,7 @@ export async function onRequest(context) {
 
             const movieTitle = targetMovie.title;
             const movieDesc = `${movieTitle} Dual Audio [Hindi-English] HD Media Overview, Details & Streaming Information on MustWatchHub.`;
-            const currentMovieUrl = `https://MustWatchHub.com/${encodeURIComponent(movieSlug)}.html`;
+            const currentMovieUrl = `https://mustwatchhub.com/${encodeURIComponent(movieSlug)}.html`;
 
             const rawPosterUrl = targetMovie.posterUrl || "https://i.postimg.cc/qqJ0X7T2/Screenshot-2026-05-19-224743.png";
             const moviePosterUrl = rawPosterUrl.includes('postimg.cc')
@@ -223,10 +223,10 @@ function render404() {
 
     <!-- 🎬 HEADER SECTION -->
     <header class="w-full py-5 px-6 md:px-12 flex justify-between items-center z-10 border-b border-white/5 bg-black/40 backdrop-blur-md">
-        <a href="https://MustWatchHub.com/" class="text-red-600 font-black text-2xl md:text-3xl tracking-tighter uppercase no-underline hover:opacity-90 transition">
+        <a href="https://mustwatchhub.com/" class="text-red-600 font-black text-2xl md:text-3xl tracking-tighter uppercase no-underline hover:opacity-90 transition">
             Must Watch<span class="text-white">&nbsp;Hub</span>
         </a>
-        <a href="https://MustWatchHub.com/" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider transition-all duration-300 shadow-lg shadow-red-600/30 hover:scale-105 flex items-center gap-2 no-underline">
+        <a href="https://mustwatchhub.com/" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider transition-all duration-300 shadow-lg shadow-red-600/30 hover:scale-105 flex items-center gap-2 no-underline">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
@@ -263,7 +263,7 @@ function render404() {
 
             <!-- ACTION BUTTON -->
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://MustWatchHub.com/" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3.5 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 shadow-lg shadow-red-600/40 hover:scale-105 inline-flex items-center gap-2 no-underline">
+                <a href="https://mustwatchhub.com/" class="bg-red-600 hover:bg-red-700 text-white px-8 py-3.5 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 shadow-lg shadow-red-600/40 hover:scale-105 inline-flex items-center gap-2 no-underline">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
