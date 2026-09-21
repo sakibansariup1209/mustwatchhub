@@ -48,12 +48,21 @@ export async function onRequest(context) {
         return env.ASSETS.fetch(request);
     }
 
-    // 🚀 ২. সাধারণ মেইন পেজগুলোতে ইন্টারসেপ্ট হবে না
-    const excludedFiles = ['/', '/index.html', '/contact.html', '/dmca.html', '/privacy.html', '/disclaimer.html', '/404.html'];
+    // ছোট হাতের ও .html ছাড়া/সহ উভয় রিকোয়েস্টই হ্যান্ডেল করবে
+    const excludedFiles = [
+        '/', '/index.html', 
+        '/contact.html', '/contact', 
+        '/dmca.html', '/dmca', 
+        '/privacy.html', '/privacy', 
+        '/disclaimer.html', '/disclaimer', 
+        '/404.html'
+    ];
     const cleanPath = path.toLowerCase().replace(/\/$/, '');
 
     if (excludedFiles.includes(cleanPath)) {
-        return env.ASSETS.fetch(request);
+        // অরিজিনাল ছোট হাতের ফাইল পাথে অ্যাসেট ফেচ করা
+        const assetUrl = new URL(cleanPath.endsWith('.html') || cleanPath === '/' ? cleanPath : cleanPath + '.html', request.url);
+        return env.ASSETS.fetch(new Request(assetUrl, request));
     }
 
     // 🚀 ৩. পুরনো ?movie=slug লিংকগুলোকে .html লিংকে ৩০১ রিডাইরেক্ট

@@ -1808,7 +1808,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!movieSlug) {
         const path = window.location.pathname;
         if (path.endsWith('.html')) {
-            const excludedFiles = ['/index.html', '/Contact.html', '/DMCA.html', '/Privacy.html', '/Disclaimer.html'];
+            const excludedFiles = ['/index.html', '/contact.html', '/dmca.html', '/privacy.html', '/disclaimer.html'];
             if (!excludedFiles.includes(path)) {
                 movieSlug = decodeURIComponent(path.replace('/', '').replace('.html', ''));
             }
