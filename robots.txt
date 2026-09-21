@@ -30,4 +30,4 @@ Allow: /?category=
 Disallow: /movies.json
 
 # 🚀 4. SITEMAP LOCATION
-Sitemap: https://moviedakhi.com/sitemap.xml
+Sitemap: https://mustwatchhub.com/sitemap.xml
