@@ -1237,7 +1237,7 @@ function executeActualOpenModal(id) {
 
     let newUrl;
     try {
-        const baseOrigin = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : 'https://MustWatchHub.com';
+        const baseOrigin = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : 'https://mustwatchhub.com';
         newUrl = new URL('/' + movieSlug + '.html', baseOrigin);
     } catch (e) {
         newUrl = { href: window.location.href };
