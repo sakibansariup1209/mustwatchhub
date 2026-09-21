@@ -48,21 +48,12 @@ export async function onRequest(context) {
         return env.ASSETS.fetch(request);
     }
 
-    // ছোট হাতের ও .html ছাড়া/সহ উভয় রিকোয়েস্টই হ্যান্ডেল করবে
-    const excludedFiles = [
-        '/', '/index.html', 
-        '/contact.html', '/contact', 
-        '/dmca.html', '/dmca', 
-        '/privacy.html', '/privacy', 
-        '/disclaimer.html', '/disclaimer', 
-        '/404.html'
-    ];
-    const cleanPath = path.toLowerCase().replace(/\/$/, '');
+    // 🚀 ২. সাধারণ পেজগুলোতে কোনো কৃত্রিম রিরাইট ছাড়াই সরাসরি রিকোয়েস্ট পাস হবে
+    const cleanPath = path.toLowerCase().replace(/\.html$/i, '').replace(/\/$/, '');
+    const staticPages = ['', '/index', '/contact', '/dmca', '/privacy', '/disclaimer', '/404'];
 
-    if (excludedFiles.includes(cleanPath)) {
-        // অরিজিনাল ছোট হাতের ফাইল পাথে অ্যাসেট ফেচ করা
-        const assetUrl = new URL(cleanPath.endsWith('.html') || cleanPath === '/' ? cleanPath : cleanPath + '.html', request.url);
-        return env.ASSETS.fetch(new Request(assetUrl, request));
+    if (staticPages.includes(cleanPath)) {
+        return env.ASSETS.fetch(request);
     }
 
     // 🚀 ৩. পুরনো ?movie=slug লিংকগুলোকে .html লিংকে ৩০১ রিডাইরেক্ট
