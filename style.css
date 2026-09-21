@@ -1,44 +1,521 @@
+@import "tailwindcss";
+
+:root {
+    --primary-red: #E50914;
+    --dark-bg: #0f0f0f;
+    --card-bg: #1a1a1a;
+}
+
+/* Ambient Glow behind the modal */
+.ambient-glow {
+    position: absolute;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle at 50% 30%, rgba(225, 29, 72, 0.18) 0%, rgba(30, 64, 175, 0.12) 45%, transparent 70%);
+    top: -20%;
+    left: -20%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Glass Container Styling */
+.cyber-glass {
+    background: linear-gradient(165deg, rgba(22, 22, 29, 0.96) 0%, rgba(10, 10, 14, 0.98) 100%);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.95),
+        0 0 40px rgba(225, 29, 72, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Electric Telegram CTA */
+.telegram-cyber-btn {
+    background: linear-gradient(135deg, #0088CC 0%, #005580 50%, #0284C7 100%);
+    box-shadow: 0 10px 24px -6px rgba(0, 136, 204, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.telegram-cyber-btn:hover {
+    box-shadow: 0 14px 30px -4px rgba(0, 168, 232, 0.65),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Shimmer Animation Line */
+@keyframes cyberShimmer {
+    0% {
+        transform: translateX(-150%) skewX(-25deg);
+    }
+
+    35% {
+        transform: translateX(250%) skewX(-25deg);
+    }
+
+    100% {
+        transform: translateX(250%) skewX(-25deg);
+    }
+}
+
+.animate-shimmer {
+    animation: cyberShimmer 3.5s infinite ease-in-out;
+}
+
+/* Apple-style Keyboard Tag */
+kbd {
+    background: linear-gradient(180deg, #2D2D38 0%, #17171F 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 2px solid #0A0A0E;
+    border-radius: 6px;
+    color: #F3F4F6;
+    padding: 2px 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* ================== Cursor problem start ================== */
+* {
+    -webkit-tap-highlight-color: transparent;
+    /* Removes mobile grey tap highlight box globally */
+    -webkit-user-select: none;
+    /* Safari */
+    user-select: none;
+    /* Standard - completely disables text selection on ALL elements to kill the I-beam cursor */
+}
+
+html,
 body {
-    background-color: #f8fafc;
-    -webkit-font-smoothing: antialiased;
+    cursor: default;
+    /* Forces standard arrow cursor everywhere */
+}
+
+/* Restore cursor text and typing functionality ONLY for input fields */
+input[type="text"],
+input[type="email"],
+input[type="search"] {
+    -webkit-user-select: auto;
+    user-select: auto;
+    cursor: text !important;
+}
+
+/* Ensure interactive elements still show the clicking hand pointer */
+a,
+button,
+.cursor-pointer,
+.movie-card,
+.category-pill,
+.cat-menu-item,
+.view-all-card,
+i.fas,
+i.fab {
+    cursor: pointer;
+}
+
+/* ================== Cursor problem end ================== */
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--dark-bg);
+    color: white;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Modern Ad Placeholder Styling */
-.ad-space {
-    position: relative;
-    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-    border: 1px dashed #cbd5e1;
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-red);
+}
+
+/* Smooth Navbar */
+#navbar {
+    background: linear-gradient(to bottom, rgba(15, 15, 15, 0.9) 0%, rgba(15, 15, 15, 0) 100%);
+    backdrop-filter: blur(4px);
+    will-change: background;
+}
+
+#navbar.scrolled {
+    background: rgba(15, 15, 15, 0.98);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Slider Animations */
+.slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 10;
+}
+
+.slide-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+}
+
+.slide.active .slide-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.3s;
+}
+
+/* Movie Card Styling */
+.movie-card {
+    cursor: pointer;
+    contain: layout paint style;
+    content-visibility: auto;
+    contain-intrinsic-size: 180px 270px;
+}
+
+.lazy-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 100% 420px;
+    min-height: 380px;
+    contain: layout style paint;
+}
+
+.movie-card:hover {
+    z-index: 10;
+}
+
+.movie-card:hover .play-overlay {
+    opacity: 1;
+}
+
+.category-pill {
+    user-select: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.category-pill.active {
+    background-color: var(--primary-red);
+    border-color: var(--primary-red);
+}
+
+/* Modal Transitions */
+#movieModal {
+    transition: opacity 0.3s ease;
+}
+
+#movieModal.active {
+    opacity: 1;
+}
+
+/* Language Badge Styling (Clean Modern Tag) */
+.lang-badge {
+    background-color: var(--primary-red);
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    box-shadow: 0 2px 8px rgba(229, 9, 20, 0.4);
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    color: #64748b;
-    overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
-    max-width: 100%;
 }
 
-.ad-space::before {
+/* ========================================== */
+/* 🚀 FINAL CLICK & WATCH NOW BUTTON STYLES   */
+/* ========================================== */
+.btn-final-click {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%) !important;
+    border: 1.5px solid #fca5a5 !important;
+    box-shadow: 0 12px 30px -5px rgba(239, 68, 68, 0.8), 0 0 0 3px rgba(239, 68, 68, 0.4) !important;
+    animation: btnNoticePop 0.35s ease-out, fireGlowPulse 1.5s infinite alternate !important;
+}
+
+.btn-watch-now {
+    background: linear-gradient(135deg, #e50914 0%, #b91c1c 100%) !important;
+    border: 1.5px solid #ff4d58 !important;
+    box-shadow: 0 10px 25px -4px rgba(229, 9, 20, 0.7) !important;
+}
+
+#nativeAdPopup.active {
+    opacity: 1 !important;
+}
+
+.episode-btn.active {
+    background-color: var(--primary-red);
+    color: white;
+}
+
+/* ==================================================== */
+/* ENHANCED MOBILE FAB STYLING                          */
+/* ==================================================== */
+#mobileFab {
+    position: fixed;
+    top: 10px;
+    bottom: auto;
+    right: 10px;
+    left: auto;
+    width: 68px;
+    height: 68px;
+    background-color: var(--primary-red);
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(229, 9, 20, 0.5), inset 0 -3px 5px rgba(0, 0, 0, 0.2);
+    z-index: 140;
+    transition: background-color 0.3s, box-shadow 0.3s, opacity 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: grab;
+    touch-action: none;
+    will-change: transform;
+    /* 🚀 জিপিইউ প্রসেসর অপ্টিমাইজেশন (ফোন গরম হওয়া রোধ করবে) */
+}
+
+#fabIconContainer {
+    transition: transform 0.3s ease;
+}
+
+/* MOBILE FAB BUTTON ANIMATION */
+
+#mobileFab.menu-open,
+/* MOBILE FAB BUTTON ANIMATION */
+#mobileFab.menu-open #fabIconContainer,
+/* MOBILE FAB BUTTON ANIMATION */
+#mobileFab.animation-stopped,
+/* MOBILE FAB BUTTON ANIMATION */
+#mobileFab.animation-stopped #fabIconContainer {
+    /* MOBILE FAB BUTTON ANIMATION */
+    animation: none !important;
+    /* MOBILE FAB BUTTON ANIMATION */
+}
+
+/* MOBILE FAB BUTTON ANIMATION */
+
+
+/* Icon wrapper */
+#fabIconContainer {
+    transition: transform 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    #mobileFab {
+        width: 76px;
+        height: 76px;
+        top: auto;
+        /* Reset top position for desktop */
+        bottom: 10px;
+        /* Bring back spacing for desktop */
+        left: 10px;
+        /* Place on the left side for desktop/tablets */
+        right: auto;
+        /* Override the mobile right-side positioning */
+
+        /* INTENSE EYE-CATCHING EFFECT */
+        animation: fab-intense-pulse 0.7s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    #fabIconContainer {
+        animation: fab-intense-shake 1.8s infinite ease-in-out;
+    }
+
+    /* Stop animations when menu is open or when user has clicked it once */
+    #mobileFab.menu-open,
+    #mobileFab.menu-open #fabIconContainer,
+    #mobileFab.animation-stopped,
+    #mobileFab.animation-stopped #fabIconContainer {
+        animation: none !important;
+    }
+}
+
+/* --- INTENSE EYE-CATCHING ANIMATION KEYFRAMES --- */
+@keyframes fab-intense-pulse {
+    0% {
+        box-shadow: 0 4px 20px rgb(255, 255, 255), 0 0 0 0 rgb(255, 255, 255);
+    }
+
+    100% {
+        /* Creates a massive, smooth expanding glowing wave */
+        box-shadow: 0 4px 20px rgba(20, 20, 20, 0.678), 0 0 0 45px rgba(229, 9, 20, 0.021);
+    }
+}
+
+@keyframes fab-intense-shake {
+
+    0%,
+    20%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    4% {
+        transform: scale(1.15) rotate(-10deg);
+    }
+
+    8% {
+        transform: scale(1.15) rotate(10deg);
+    }
+
+    12% {
+        transform: scale(1.15) rotate(-10deg);
+    }
+
+    16% {
+        transform: scale(1.15) rotate(10deg);
+    }
+}
+
+/* ================== FAB DRAG & ANIMATION CSS FIX START ================== */
+#mobileFab:active {
+    cursor: grabbing;
+    /* Removed !important from transform so JavaScript can move it while dragging */
+    transform: scale(0.9);
+    box-shadow: 0 2px 10px rgba(229, 9, 20, 0.4) !important;
+    animation: none !important;
+    /* Stop animation while holding */
+}
+
+#mobileFab:active #fabIconContainer {
+    animation: none !important;
+}
+
+/* ================== FAB DRAG & ANIMATION CSS FIX END ================== */
+
+/* Hide FAB completely with this class */
+#mobileFab.fab-hidden {
+    transform: scale(0) !important;
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+/* Smooth Icon Swap Animation inside FAB (With !important protection) */
+#mobileFab.menu-open #fabIconBars {
+    transform: scale(0) rotate(-90deg) !important;
+    opacity: 0 !important;
+}
+
+#mobileFab.menu-open #fabIconTimes {
+    transform: scale(1) rotate(0deg) !important;
+    opacity: 1 !important;
+}
+
+/* Category Menu Box Styling & Animations */
+#categoryMenu {
+    transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+}
+
+#categoryMenu.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.cat-menu-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    /* Responsive text and padding using clamp */
+    padding: clamp(18px, 4vw, 24px);
+    text-align: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: clamp(13px, 3.5vw, 16px);
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cat-menu-item:hover,
+.cat-menu-item:active {
+    background: var(--primary-red);
+    border-color: var(--primary-red);
+    transform: scale(0.95) translateY(-2px);
+    box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+}
+
+/* View Transitions */
+.view-container {
+    display: none;
+    min-height: 100vh;
+}
+
+.view-container.active {
+    display: block;
+}
+
+/* ==================================================== */
+/* ANNOUNCEMENT POPUP STYLING                           */
+/* ==================================================== */
+
+/* New Popup Box Start */
+#announcementPopup.active #popupBackdrop {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#announcementPopup.active #popupBox {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+}
+
+@keyframes popupBellPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.6);
+    }
+
+    70% {
+        box-shadow: 0 0 0 20px rgba(229, 9, 20, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(229, 9, 20, 0);
+    }
+}
+
+.popup-bell-icon {
+    animation: popupBellPulse 2s infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+/* New Popup Box End */
+
+/* ================== NEW CODE START: DOWNLOAD BUTTON CUSTOM ANIMATIONS ================== */
+.btn-shimmer::after {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
-    width: 50%;
+    width: 60%;
     height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
     transform: skewX(-20deg);
-    animation: shine 4s infinite;
+    animation: shimmer-sweep 2s infinite;
 }
 
-@keyframes shine {
+@keyframes shimmer-sweep {
     0% {
         left: -100%;
-    }
-
-    20% {
-        left: 200%;
     }
 
     100% {
@@ -46,161 +523,725 @@ body {
     }
 }
 
-/* --- Rail Ads / Skyscraper Ads Optimization --- */
-.rail-ad-left,
-.rail-ad-right {
-    display: none;
-    position: fixed;
-    top: 130px;
-    z-index: 40;
+.popup-appear {
+    animation: fadeInScale 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-@media (min-width: 1920px) {
-    .rail-ad-left {
-        display: block;
-        left: calc(50% - 640px - 320px);
+@keyframes fadeInScale {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
     }
 
-    .rail-ad-right {
-        display: block;
-        right: calc(50% - 640px - 180px);
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
-/* Smooth Image Zoom on Hover */
-.img-hover-zoom {
+.btn-pulse {
+    animation: pulseGlow 1.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pulseGlow {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 10px 30px rgba(26, 115, 232, 0.8);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+    }
+}
+
+.btn-shine {
+    position: relative;
     overflow: hidden;
 }
 
-.img-hover-zoom img {
-    transition: transform 0.5s ease;
+.btn-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(30deg);
+    animation: shineSweep 3s infinite;
 }
 
-.group:hover .img-hover-zoom img {
-    transform: scale(1.05);
+@keyframes shineSweep {
+    0% {
+        left: -60%;
+    }
+
+    20% {
+        left: 120%;
+    }
+
+    100% {
+        left: 120%;
+    }
 }
 
-/* Hide scrollbar for top navbar */
-.no-scrollbar::-webkit-scrollbar {
+
+/* NativeBanner Ad */
+.native-popup-appear {
+    animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes modalPop {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.native-ad-pulse {
+    animation: nativeBoxPulse 2s infinite ease-in-out;
+}
+
+@keyframes nativeBoxPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 25px 60px rgba(220, 38, 38, 0.25);
+    }
+}
+
+.premium-play-btn {
+    position: relative;
+    animation: innerPulse 2s infinite ease-in-out;
+}
+
+@keyframes innerPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.premium-play-btn::before,
+.premium-play-btn::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    animation: waveExpand 2s infinite cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.premium-play-btn::after {
+    animation-delay: 1s;
+}
+
+@keyframes waveExpand {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+/* Force text inside ads to be visible and black */
+#container-faea46eecf01053afa6ef2518e3c0630 * {
+    color: #0f1419 !important;
+    text-shadow: none !important;
+}
+
+/* ========================================== */
+/* 🚀 FULL-SIZE CENTERED FLEXBOX SERVER LIST  */
+/* ========================================== */
+#serverList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+}
+
+/* 📱 Mobile: 2 buttons per row (Original Size & Centered) */
+.server-btn {
+    position: relative;
+    border-radius: 12px;
+    padding: 10px 12px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 calc(50% - 5px);
+    width: calc(50% - 5px);
+    box-sizing: border-box;
+    text-align: left;
+    outline: none;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+}
+
+/* 🖥️ Desktop: 3 buttons per row (Original Full Width & Centered Incomplete Rows) */
+@media (min-width: 640px) {
+    #serverList {
+        gap: 12px;
+    }
+    .server-btn {
+        flex: 0 0 calc(33.333% - 8px);
+        width: calc(33.333% - 8px);
+        padding: 11px 16px;
+    }
+}
+
+.server-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.15);
+}
+
+/* Glassmorphic Inner Icon Box */
+.server-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #ffffff;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.server-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+    overflow: hidden;
+}
+
+.server-title {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.server-tag {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.3px;
+    margin-top: 2px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================== */
+/* 🎨 MODERN AESTHETIC GRADIENT PALETTES       */
+/* ========================================== */
+
+/* 🔴 Server 1 - Velvet Crimson Coral */
+.server-btn-1 {
+    background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+    border: 1px solid rgba(130, 220, 255, 0.35);
+    box-shadow: 0 4px 18px rgba(0, 114, 255, 0.35);
+}
+
+/* 🔵 Server 2 - Sapphire Electric Cyan */
+.server-btn-2 {
+    background: linear-gradient(135deg, #FF2A54 0%, #9E0021 100%);
+    border: 1px solid rgba(255, 120, 145, 0.35);
+    box-shadow: 0 4px 18px rgba(255, 42, 84, 0.35);
+}
+
+/* 🟠 Server 3 - Sunset Copper Amber */
+.server-btn-3 {
+    background: linear-gradient(135deg, #FF8008 0%, #CE6D00 100%);
+    border: 1px solid rgba(255, 190, 110, 0.35);
+    box-shadow: 0 4px 18px rgba(255, 128, 8, 0.35);
+}
+
+/* 🟣 Server 4 - Ultraviolet Royal Indigo */
+.server-btn-4 {
+    background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+    border: 1px solid rgba(195, 140, 255, 0.35);
+    box-shadow: 0 4px 18px rgba(142, 45, 226, 0.35);
+}
+
+/* 🟢 Server 5 - Hyper Mint Emerald */
+.server-btn-5 {
+    background: linear-gradient(135deg, #11998E 0%, #059669 100%);
+    border: 1px solid rgba(130, 245, 210, 0.35);
+    box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);
+}
+
+/* 💗 Server 6 - Cyber Velvet Rose */
+.server-btn-6 {
+    background: linear-gradient(135deg, #FF007F 0%, #A8005B 100%);
+    border: 1px solid rgba(255, 130, 195, 0.35);
+    box-shadow: 0 4px 18px rgba(255, 0, 127, 0.35);
+}
+
+/* ========================================== */
+/* ⚡ HIGH-VISIBILITY "SELECTED / PLAYING" STATE */
+/* ========================================== */
+
+/* Remove any previous overlays if leftover */
+.server-btn::before {
+    display: none !important;
+}
+
+/* 🖱️ Simple click bounce */
+.server-btn:active {
+    transform: scale(0.96) !important;
+}
+
+/* 🎯 Unmistakable Active State */
+.server-btn.active {
+    /* Solid dark background so the border pops */
+    background: #09090b !important; 
+    
+    /* Thick, bright glowing border */
+    border: 2px solid #22c55e !important; 
+    box-shadow: 0 4px 20px rgba(34, 197, 94, 0.25), inset 0 0 10px rgba(34, 197, 94, 0.1) !important;
+    
+    /* Subtle press-in */
+    transform: scale(0.98) translateY(2px) !important;
+    filter: none !important;
+}
+
+/* Icon box turns solid vibrant green for extreme contrast */
+.server-btn.active .server-icon-box {
+    background: #22c55e !important;
+    border-color: #22c55e !important;
+    box-shadow: 0 2px 10px rgba(34, 197, 94, 0.5) !important;
+}
+
+/* Icon turns black to stand out perfectly against the green box */
+.server-btn.active .server-icon-box i {
+    color: #000000 !important;
+    text-shadow: none !important;
+}
+
+/* Crisp Text */
+.server-btn.active .server-title {
+    color: #ffffff !important;
+}
+
+.server-btn.active .server-tag {
+    color: #a1a1aa !important;
+}
+
+/* ========================================== */
+/* 🟢 SMART RESPONSIVE "PLAYING" INDICATOR    */
+/* ========================================== */
+
+/* 🖥️ Desktop: Inline text next to server name */
+@media (min-width: 640px) {
+    .server-btn.active .server-title::after {
+        content: ' • PLAYING';
+        font-size: 8.5px;
+        font-weight: 900;
+        color: #22c55e;
+        letter-spacing: 0.5px;
+        margin-left: 5px;
+        text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+    }
+}
+
+/* 📱 Mobile: Top-Right Badge to prevent text overflow (FIXED) */
+@media (max-width: 639px) {
+    .server-btn.active::after {
+        content: 'PLAYING';
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: #22c55e;
+        color: #000000;
+        font-size: 6.5px;
+        font-weight: 900;
+        padding: 2.5px 5px;
+        border-bottom-left-radius: 6px;
+        border-top-right-radius: 10px;
+        letter-spacing: 0.5px;
+        z-index: 10;
+        box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* 🛡️ Safe zone for text so badge doesn't hide the "1" in SERVER 1 */
+    .server-btn.active .server-info {
+        padding-right: 12px;
+    }
+}
+
+/* ========================================== */
+/* 🚀 HERO SECTION MOVING MOVIE CARDS MARQUEE (SUB-PIXEL PRECISION FIX) */
+/* ========================================== */
+@keyframes marqueeScrollUp {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(0, -50%, 0); }
+}
+
+@keyframes marqueeScrollDown {
+    0% { transform: translate3d(0, -50%, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+}
+
+/* ========================================== */
+/* 🚀 HERO SECTION MOVING CARDS MARQUEE (PREVENTS OVERHEATING) */
+/* ========================================== */
+@keyframes marqueeScrollUp {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(0, -50%, 0); }
+}
+
+@keyframes marqueeScrollDown {
+    0% { transform: translate3d(0, -50%, 0); }
+    100% { transform: translate3d(0, 0, 0); }
+}
+
+.marquee-col-up,
+.marquee-col-down {
+    will-change: transform;
+    contain: layout paint;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.marquee-col-up {
+    animation: marqueeScrollUp 45s linear infinite;
+}
+
+.marquee-col-down {
+    animation: marqueeScrollDown 45s linear infinite;
+}
+
+/* 🚀 Pause animation smoothly on hover for individual column */
+.marquee-col-up:hover,
+.marquee-col-down:hover {
+    animation-play-state: paused;
+}
+
+/* 🚀 Pause animation smoothly on hover for individual column */
+.marquee-col-up:hover,
+.marquee-col-down:hover {
+    animation-play-state: paused;
+}
+
+/* ========================================== */
+/* 🚀 ULTRA-FAST GPU ACCELERATED MODAL SCROLLING */
+/* ========================================== */
+#movieModal {
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+    transform: translateZ(0);
+}
+
+#movieModal > div {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* ========================================== */
+/* 🚀 SLEEK HERO POSTER FADE MASK (CSS MASKING) */
+/* ========================================== */
+.hero-poster-mask {
+    -webkit-mask-image: linear-gradient(
+        to bottom, 
+        transparent 0%, 
+        black 6%, 
+        black 85%, 
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom, 
+        transparent 0%, 
+        black 6%, 
+        black 85%, 
+        transparent 100%
+    );
+}
+
+/* ========================================== */
+/* 🚀 PROFESSIONAL VECTOR CLICK HAND ENGINE   */
+/* ========================================== */
+@keyframes outlineHandTap {
+    0%, 100% {
+        transform: translateY(0) scale(1) rotate(-5deg);
+        filter: drop-shadow(0 15px 15px rgba(0,0,0,0.4));
+    }
+    50% {
+        transform: translateY(10px) scale(0.92) rotate(-5deg);
+        filter: drop-shadow(0 5px 5px rgba(0,0,0,0.7));
+    }
+}
+
+@keyframes outlineRaysPulse {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+        /* আঙুলের ডগার এক্সাক্ট পজিশন থেকে রে বের হবে */
+        transform-origin: 16px 6px; 
+    }
+    40%, 60% {
+        opacity: 1;
+        transform: scale(1.1);
+        transform-origin: 16px 6px;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.3);
+        transform-origin: 16px 6px;
+    }
+}
+
+.animate-outline-hand {
+    animation: outlineHandTap 1.3s infinite cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.animate-outline-rays {
+    animation: outlineRaysPulse 1.3s infinite cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ========================================== */
+/* 🚀 DYNAMIC STEP-REACTIVE DOWNLOAD BUTTON   */
+/* ========================================== */
+.modern-download-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 22px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    width: 100%;
+    max-width: 380px;
+    outline: none;
+}
+
+.modern-download-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    filter: brightness(1.1);
+}
+
+.modern-download-btn:active {
+    transform: translateY(2px) scale(0.97);
+}
+
+/* 🟡 STEP 1 (Orange / Golden Amber Glow) */
+.modern-download-btn.step-1 {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%) !important;
+    border-color: #fef08a !important;
+    box-shadow: 0 12px 35px -5px rgba(245, 158, 11, 0.7), 0 0 0 2px rgba(245, 158, 11, 0.4) !important;
+    animation: btnNoticePop 0.35s ease-out;
+}
+
+/* 🔴 STEP 2 - FINAL CLICK (Intense Fire Crimson Glow) */
+.modern-download-btn.step-2 {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%) !important;
+    border-color: #fca5a5 !important;
+    box-shadow: 0 14px 40px -5px rgba(239, 68, 68, 0.85), 0 0 0 3px rgba(239, 68, 68, 0.5) !important;
+    animation: btnNoticePop 0.35s ease-out, fireGlowPulse 1.5s infinite alternate;
+}
+
+/* 🔵 STEP 3 - SUCCESS DELIVERED (Electric Cyan / Blue) */
+.modern-download-btn.step-3 {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    border-color: #bae6fd !important;
+    box-shadow: 0 10px 30px -5px rgba(2, 132, 199, 0.7) !important;
+    animation: btnNoticePop 0.35s ease-out;
+}
+
+@keyframes btnNoticePop {
+    0% { transform: scale(0.92); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fireGlowPulse {
+    0% { box-shadow: 0 10px 30px rgba(239, 68, 68, 0.6); }
+    100% { box-shadow: 0 15px 45px rgba(239, 68, 68, 0.95), 0 0 20px rgba(255, 255, 255, 0.4); }
+}
+
+/* Shimmer Light Reflection */
+.modern-download-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transform: skewX(-25deg);
+    animation: modernShimmerSweep 3s infinite ease-in-out;
+}
+
+@keyframes modernShimmerSweep {
+    0% { left: -150%; }
+    30%, 100% { left: 250%; }
+}
+
+.modern-btn-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.modern-btn-content {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex: 1;
+    overflow: hidden;
+}
+
+.modern-btn-main {
+    font-size: 13.5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #ffffff;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.modern-btn-sub {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 2.5px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.modern-btn-arrow {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.modern-download-btn:hover .modern-btn-arrow {
+    transform: translateX(4px);
+    color: #ffffff;
+}
+
+/* Language Badge Styling (Clean Modern Tag) */
+.lang-badge {
+    background-color: var(--primary-red);
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    box-shadow: 0 2px 8px rgba(229, 9, 20, 0.4);
+    display: inline-flex;
+    align-items: center;
+}
+
+/* ========================================== */
+/* 🍿 MODAL HORIZONTAL UP NEXT SLIDER         */
+/* ========================================== */
+#modalUpNextGrid {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    touch-action: auto; /* 🚀 মোবাইলে উপর-নিচে ও ডানে-বামে উভয় দিকেই স্ক্রোল চালু থাকবে */
+    will-change: scroll-position;
+    
+    /* 🚀 CINEMATIC EDGE FADE (দুই পাশের স্মুথ ব্লেন্ড ও ফেড ইফেক্ট) */
+}
+
+#modalUpNextGrid::-webkit-scrollbar {
     display: none;
 }
 
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+/* 🛑 ছবির ডিফল্ট ড্র্যাগ এবং সিলেকশন পুরোপুরি বন্ধ করে স্মুথ স্ক্রোল নিশ্চিত করা */
+#modalUpNextGrid * {
+    -webkit-user-drag: none;
+    user-drag: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
-/* --- Dark Mode Overrides --- */
-.dark body {
-    background-color: #0f172a;
-    color: #f1f5f9;
+.suggest-card {
+    flex: 0 0 115px;
+    min-width: 115px;
+    max-width: 115px;
 }
 
-.dark .bg-white {
-    background-color: #1e293b !important;
+@media (min-width: 640px) {
+    .suggest-card {
+        flex: 0 0 140px;
+        min-width: 140px;
+        max-width: 140px;
+    }
 }
 
-.dark .border-slate-100 {
-    border-color: #334155 !important;
-}
-
-.dark .border-slate-200 {
-    border-color: #475569 !important;
-}
-
-.dark .text-slate-900 {
-    color: #f8fafc !important;
-}
-
-.dark .text-slate-800 {
-    color: #f1f5f9 !important;
-}
-
-.dark .text-slate-700 {
-    color: #e2e8f0 !important;
-}
-
-.dark .text-slate-600 {
-    color: #cbd5e1 !important;
-}
-
-.dark .text-slate-500 {
-    color: #94a3b8 !important;
-}
-
-.dark .text-slate-400 {
-    color: #64748b !important;
-}
-
-.dark .bg-slate-50 {
-    background-color: #0f172a !important;
-}
-
-.dark .bg-slate-100 {
-    background-color: #334155 !important;
-}
-
-.dark .bg-white\/70 {
-    background-color: rgba(30, 41, 59, 0.8) !important;
-}
-
-.dark .from-white {
-    --tw-gradient-from: #1e293b !important;
-}
-
-.dark .via-white\/90 {
-    --tw-gradient-via: rgba(30, 41, 59, 0.9) !important;
-}
-
-.dark .hover\:bg-slate-50:hover {
-    background-color: #334155 !important;
-}
-
-.dark .hover\:bg-slate-200:hover {
-    background-color: #475569 !important;
-}
-
-.dark .shadow-sm {
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5) !important;
-}
-
-.dark .bg-brand-50 {
-    background-color: rgba(59, 130, 246, 0.15) !important;
-    color: #60a5fa !important;
-}
-
-.dark .text-brand-600 {
-    color: #60a5fa !important;
-}
-
-.dark .hover\:text-brand-600:hover {
-    color: #93c5fd !important;
-}
-
-.dark .ad-space {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-    border-color: #475569 !important;
-    color: #94a3b8 !important;
-}
-
-.dark .ad-space::before {
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent) !important;
-}
-
-.dark #search-input,
-.dark #mobile-search-input {
-    background-color: #334155 !important;
-    color: #f1f5f9 !important;
-}
-
-.dark #search-input:focus,
-.dark #mobile-search-input:focus {
-    background-color: #1e293b !important;
-    border-color: #3b82f6 !important;
-}
-
-/* --- Speed Optimization --- */
-.category-section {
-    content-visibility: auto;
-    contain-intrinsic-size: 1000px;
+@media (min-width: 1024px) {
+    .suggest-card {
+        flex: 0 0 155px;
+        min-width: 155px;
+        max-width: 155px;
+    }
 }

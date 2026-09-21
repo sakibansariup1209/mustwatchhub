@@ -1,0 +1,33 @@
+# 🚀 1. ALLOW SEARCH ENGINE BOTS
+User-agent: Googlebot
+Allow: /
+Allow: /?category=
+
+User-agent: Bingbot
+Allow: /
+Allow: /?category=
+
+# 🚀 2. BLOCK KNOWN ANTI-PIRACY CRAWLERS & SCRAPERS
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# 🚀 3. DEFAULT RULES FOR ALL OTHER BOTS
+User-agent: *
+Allow: /
+Allow: /?category=
+Disallow: /movies.json
+
+# 🚀 4. SITEMAP LOCATION
+Sitemap: https://moviedakhi.com/sitemap.xml
