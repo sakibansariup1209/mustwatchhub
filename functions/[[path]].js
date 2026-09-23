@@ -99,7 +99,16 @@ export async function onRequest(context) {
             let html = await response.text();
 
             const movieTitle = targetMovie.title;
-            const movieDesc = `${movieTitle} Dual Audio [Hindi-English] HD Media Overview, Details & Streaming Information on MustWatchHub.`;
+            const isAsianContent = ['Bollywood', 'South', 'Bollywood Series'].includes(targetMovie.category);
+
+            const movieDesc = isAsianContent
+                ? `Stream ${movieTitle} in HD Dual Audio [Hindi-English] with English subtitles on MustWatchHub.`
+                : `Watch ${movieTitle} (${targetMovie.year || '2026'}) online in 1080p / 4K UHD with English Subtitles & Multi-Audio on MustWatchHub.`;
+
+            const pageTitle = isAsianContent
+                ? `${movieTitle} Dual Audio [Hindi-English] HD - MustWatchHub`
+                : `Watch ${movieTitle} (${targetMovie.year || '2026'}) Full Movie Online HD - MustWatchHub`;
+
             const currentMovieUrl = `https://mustwatchhub.com/${encodeURIComponent(movieSlug)}.html`;
 
             const rawPosterUrl = targetMovie.posterUrl || "https://i.postimg.cc/qqJ0X7T2/Screenshot-2026-05-19-224743.png";
@@ -112,15 +121,19 @@ export async function onRequest(context) {
             const directorName = tmdb?.director || 'Renowned Filmmaker';
             const castList = tmdb?.cast || 'Leading Industry Ensemble Cast';
             const duration = tmdb?.runtime || 'Full Feature Duration';
-            const synopsis = tmdb?.overview || `${movieTitle} is a premier ${targetMovie.category || 'Cinema'} title released in ${targetMovie.year || '2026'}. Featuring ${targetMovie.language || 'Dual Audio Hindi-English'} presentation, this release captures exceptional storytelling, high-fidelity sound design, and vivid visual sequences. Viewers can explore complete media specifications, stream links, and technical playback overview directly on MustWatchHub.`;
+            const defaultAudioTag = isAsianContent ? 'Dual Audio [Hindi-English]' : 'English (Original) / Multi-Audio [Eng Sub]';
+
+            const synopsis = tmdb?.overview || `${movieTitle} is a premier ${targetMovie.category || 'Cinema'} title released in ${targetMovie.year || '2026'}. Featuring ${targetMovie.language || defaultAudioTag} presentation, this release captures exceptional storytelling, high-fidelity sound design, and vivid visual sequences. Viewers can explore complete media specifications, stream links, and technical playback overview directly on MustWatchHub.`;
 
             const dynamicCanonicalTag = `<link rel="canonical" href="${currentMovieUrl}">`;
             html = html.replace('</head>', `    ${dynamicCanonicalTag}\n</head>`);
-            html = html.replace(/<title>.*?<\/title>/i, `<title>${movieTitle} - MustWatchHub</title>`);
+            
+            // 🚀 Fix: গুগল সার্চ ও ব্রাউজারে ডাইনামিক pageTitle প্রদর্শিত হবে
+            html = html.replace(/<title>.*?<\/title>/i, `<title>${pageTitle}</title>`);
 
             const metaMatches = [
                 { regex: /<meta\s+name="description"\s+content=".*?"\s*\/?>/i, replacement: `<meta name="description" content="${movieDesc}">` },
-                { regex: /<meta\s+property="og:title"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:title" content="${movieTitle} - MustWatchHub">` },
+                { regex: /<meta\s+property="og:title"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:title" content="${pageTitle}">` },
                 { regex: /<meta\s+property="og:description"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:description" content="${movieDesc}">` },
                 { regex: /<meta\s+property="og:url"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:url" content="${currentMovieUrl}">` },
                 { regex: /<meta\s+property="og:image"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:image" content="${moviePosterUrl}">` }
@@ -141,7 +154,7 @@ export async function onRequest(context) {
                 "image": moviePosterUrl,
                 "genre": targetMovie.genre || 'Action, Drama',
                 "description": synopsis,
-                "inLanguage": targetMovie.language || 'Hindi, English'
+                "inLanguage": isAsianContent ? ["hi", "en"] : ["en", "multi"]
             };
             const schemaScript = `<script type="application/ld+json">${JSON.stringify(movieSchema)}</script>`;
             html = html.replace('</head>', `    ${schemaScript}\n</head>`);
@@ -161,7 +174,7 @@ export async function onRequest(context) {
                                 <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>🎬 Director:</strong> ${directorName}</li>
                                 <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>⭐ Star Cast:</strong> ${castList}</li>
                                 <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>🎭 Genre:</strong> ${targetMovie.genre || 'Action, Entertainment'}</li>
-                                <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>🌐 Audio Language:</strong> ${targetMovie.language || 'Dual Audio [Hindi-English]'}</li>
+                                <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>🌐 Audio Language:</strong> ${targetMovie.language || defaultAudioTag}</li>
                                 <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);"><strong>⏱️ Runtime:</strong> ${duration}</li>
                                 <li style="padding: 8px 0;"><strong>📅 Release Year:</strong> ${targetMovie.year || '2026'}</li>
                             </ul>

@@ -294,9 +294,9 @@ async function loadContentDatabase() {
 const databaseLoadPromise = loadContentDatabase();
 
 const categories = [
-    "all", "Hollywood", "Bollywood", "South", "Animation",
-    "Korean Country", "Chinese", "Hollywood Series", "Bollywood Series",
-    "Korean Series", "Adult Comedy", "Others"
+    "all", "Hollywood", "Hollywood Series", "Animation",
+    "Korean Country", "Korean Series", "Bollywood", "South", "Chinese",
+    "Bollywood Series", "Adult Comedy", "Others"
 ];
 
 let currentItem = null;
@@ -498,7 +498,11 @@ function renderCategories() {
     if (libraryFilters) libraryFilters.innerHTML = '';
 
     categories.forEach(cat => {
-        const label = cat === 'Korean Country' ? 'Korean' : cat;
+        let label = cat;
+        if (cat === 'Korean Country') label = 'Korean Movies';
+        if (cat === 'Korean Series') label = 'Korean Series'; // বা 'K-Drama Series'
+        if (cat === 'South') label = 'South Cinema';
+        if (cat === 'Animation') label = 'Anime & Animation';
 
         if (cat === 'all') {
             if (mobileGrid) {
@@ -881,7 +885,7 @@ function switchView(viewName, filterCategory = null, mode = true, restoredCount 
 
     if (viewName === 'home') {
         if (homeView) homeView.classList.add('active');
-        document.title = "MustWatchHub | Watch Dual Audio Movies & Web Series Free Online HD";
+        document.title = "MustWatchHub | Watch HD Movies & Series Free Online (English & Dual Audio)";
         if (searchInput) {
             searchInput.value = '';
             updateSearchUI();
@@ -1265,7 +1269,9 @@ function executeActualOpenModal(id) {
 
     const titleHasYear = titleKey.includes(`(${releaseYear})`);
     const SEOFullTitle = titleHasYear ? titleKey : `${titleKey} (${releaseYear})`;
-    const cleanLang = item.language || "Dual Audio [Hindi-English] / ESub";
+    const cleanLang = item.language 
+    ? item.language 
+    : (item.category?.includes('Hollywood') ? "English (Original) / Multi-Audio • ESub" : "Dual Audio [Hindi-English] • ESub");
 
     document.title = `${SEOFullTitle} [${cleanLang}] | ${contentType} Media Details & Info - MustWatchHub`;
 
@@ -1465,7 +1471,9 @@ function closeModal(triggerBack = false, isUserAction = false) {
             }
             window.history.replaceState({ ...currentState, isModalOpen: false }, '', rootUrl);
         } catch (e) { }
-        document.title = currentView === 'home' ? "MustWatchHub | Watch Dual Audio Movies & Web Series Free Online HD" : "All Movies & Web Series - MustWatchHub";
+        document.title = currentView === 'home' 
+            ? "MustWatchHub | Watch HD Movies & Series Free Online (English & Dual Audio)" 
+            : "All Movies & Web Series - MustWatchHub";
     }
 
     setTimeout(() => { isModalClosing = false; }, 350);
