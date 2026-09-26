@@ -349,8 +349,8 @@ function debounce(func, wait) {
 // • কোনো সার্ভার সাময়িক ডাউন থাকলে enabled: false করে দিন, ওয়েবসাইট থেকে সাথে সাথে হাইড হয়ে যাবে
 // • সার্ভারের সিরিয়াল আগে-পিছে সাজালে বাটনের অর্ডার এবং ডিফল্ট প্লেয়ার সেই অনুযায়ী লোড হবে
 const STREAM_SERVER_CONFIG = [
-    { key: 'embedUrl2', name: 'Server 1', tag: 'Primary HD', enabled: true },
-    { key: 'embedUrl', name: 'Server 2', tag: 'Fast Stream', enabled: true },
+    { key: 'embedUrl', name: 'Server 1', tag: 'Fast Stream', enabled: true },
+    { key: 'embedUrl2', name: 'Server 2', tag: 'Primary HD', enabled: true },
     { key: 'embedUrl3', name: 'Server 3', tag: 'VIP Mirror', enabled: true },
     { key: 'embedUrl4', name: 'Server 4', tag: 'Alternative', enabled: true },
     { key: 'embedUrl5', name: 'Server 5', tag: '4K Ultra HD', enabled: true },
