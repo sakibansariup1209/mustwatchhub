@@ -98,16 +98,30 @@ export async function onRequest(context) {
             const response = await env.ASSETS.fetch(new URL('/index.html', request.url));
             let html = await response.text();
 
-            const movieTitle = targetMovie.title;
+            const rawTitle = targetMovie.title || "";
+            // ১. টাইটেল থেকে অতিরিক্ত ব্র্যাকেটের সাল মুছে ক্লিন নাম বের করা
+            const cleanTitle = rawTitle.replace(/\s*\(\d{4}\).*/, '').trim();
+
+            // ২. টাইটেলে থাকা সাল অথবা ডাটাবেজের সাল স্বয়ংক্রিয়ভাবে একটি মাত্র সাল হিসেবে নেওয়া
+            const yearMatch = rawTitle.match(/\((\d{4})\)/);
+            const movieYear = targetMovie.year || (yearMatch ? yearMatch[1] : '2026');
+
+            // ৩. নিচের স্কিমা ও এসইও আর্টিকেলের জন্য সিঙ্গেল সালযুক্ত পারফেক্ট টাইটেল
+            const movieTitle = `${cleanTitle} (${movieYear})`;
+
+            // ৪. কনটেন্ট মুভি নাকি সিরিজ তা স্বয়ংক্রিয়ভাবে নির্ধারণ করা
+            const isSeries = targetMovie.category?.toLowerCase().includes('series') || (targetMovie.episodes && targetMovie.episodes.length > 0);
+            const contentLabel = isSeries ? 'Series Online' : 'Full Movie Online HD';
+
             const isAsianContent = ['Bollywood', 'South', 'Bollywood Series'].includes(targetMovie.category);
 
             const movieDesc = isAsianContent
                 ? `Stream ${movieTitle} in HD Dual Audio [Hindi-English] with English subtitles on MustWatchHub.`
-                : `Watch ${movieTitle} (${targetMovie.year || '2026'}) online in 1080p / 4K UHD with English Subtitles & Multi-Audio on MustWatchHub.`;
+                : `Watch ${movieTitle} online in 1080p / 4K UHD with English Subtitles & Multi-Audio on MustWatchHub.`;
 
             const pageTitle = isAsianContent
                 ? `${movieTitle} Dual Audio [Hindi-English] HD - MustWatchHub`
-                : `Watch ${movieTitle} (${targetMovie.year || '2026'}) Full Movie Online HD - MustWatchHub`;
+                : `Watch ${movieTitle} ${contentLabel} - MustWatchHub`;
 
             const currentMovieUrl = `https://mustwatchhub.com/${encodeURIComponent(movieSlug)}.html`;
 
