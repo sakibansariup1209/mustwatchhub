@@ -140,8 +140,12 @@ export async function onRequest(context) {
             const synopsis = tmdb?.overview || `${movieTitle} is a premier ${targetMovie.category || 'Cinema'} title released in ${targetMovie.year || '2026'}. Featuring ${targetMovie.language || defaultAudioTag} presentation, this release captures exceptional storytelling, high-fidelity sound design, and vivid visual sequences. Viewers can explore complete media specifications, stream links, and technical playback overview directly on MustWatchHub.`;
 
             const dynamicCanonicalTag = `<link rel="canonical" href="${currentMovieUrl}">`;
-            html = html.replace('</head>', `    ${dynamicCanonicalTag}\n</head>`);
-            
+            if (html.match(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i)) {
+                html = html.replace(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i, dynamicCanonicalTag);
+            } else {
+                html = html.replace('</head>', `    ${dynamicCanonicalTag}\n</head>`);
+            }
+
             // 🚀 Fix: গুগল সার্চ ও ব্রাউজারে ডাইনামিক pageTitle প্রদর্শিত হবে
             html = html.replace(/<title>.*?<\/title>/i, `<title>${pageTitle}</title>`);
 

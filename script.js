@@ -1786,26 +1786,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         sessionStorage.removeItem('MustWatchHub_Count');
     }
 
-    renderCategories();
+renderCategories();
 
-    // 🚀 STEP 1: পেজের মূল কন্টেন্ট (LCP) সাথে সাথে রেন্ডার হবে
+    // 🚀 STEP 1: প্রথম স্ক্রিনের হিরো স্লাইডার ও রিসেন্ট অ্যাডস তাৎক্ষণিক একসাথে রেন্ডার হবে (কোনো ব্ল্যাংক স্ক্রিন থাকবে না)
+    initHeroSlider();
     renderRecentAdds();
 
-    // 🚀 STEP 2: ব্রাউজারের মেইন থ্রেডকে ফ্রি রেখে ১০০ms পর ক্যাটাগরি লোড হবে
+    // 🚀 STEP 2: ব্রাউজারের মেইন থ্রেডকে ফ্রি রেখে ৫০ms পর নিচের ক্যাটাগরি লোড হবে
     setTimeout(() => {
         renderCategorySections(isRestoring);
-    }, 100);
-
-    // 🚀 STEP 3: ৩০০ms পর ব্যাকগ্রাউন্ড হিরো মার্কি স্লাইডার তৈরি হবে
-    setTimeout(() => {
-        initHeroSlider();
-    }, 300);
-
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => initHeroSlider(), { timeout: 1500 });
-    } else {
-        setTimeout(() => initHeroSlider(), 800);
-    };
+    }, 50);
 
     const params = new URLSearchParams(window.location.search);
     const view = params.get('view') || 'home';
