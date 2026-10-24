@@ -1269,9 +1269,9 @@ function executeActualOpenModal(id) {
 
     const titleHasYear = titleKey.includes(`(${releaseYear})`);
     const SEOFullTitle = titleHasYear ? titleKey : `${titleKey} (${releaseYear})`;
-    const cleanLang = item.language 
-    ? item.language 
-    : (item.category?.includes('Hollywood') ? "English (Original) / Multi-Audio • ESub" : "Dual Audio [Hindi-English] • ESub");
+    const cleanLang = item.language
+        ? item.language
+        : (item.category?.includes('Hollywood') ? "English (Original) / Multi-Audio • ESub" : "Dual Audio [Hindi-English] • ESub");
 
     document.title = `${SEOFullTitle} [${cleanLang}] | ${contentType} Media Details & Info - MustWatchHub`;
 
@@ -1471,8 +1471,8 @@ function closeModal(triggerBack = false, isUserAction = false) {
             }
             window.history.replaceState({ ...currentState, isModalOpen: false }, '', rootUrl);
         } catch (e) { }
-        document.title = currentView === 'home' 
-            ? "MustWatchHub | Watch HD Movies & Series Free Online (English & Dual Audio)" 
+        document.title = currentView === 'home'
+            ? "MustWatchHub | Watch HD Movies & Series Free Online (English & Dual Audio)"
             : "All Movies & Web Series - MustWatchHub";
     }
 
@@ -1786,7 +1786,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         sessionStorage.removeItem('MustWatchHub_Count');
     }
 
-renderCategories();
+    renderCategories();
 
     // 🚀 STEP 1: প্রথম স্ক্রিনের হিরো স্লাইডার ও রিসেন্ট অ্যাডস তাৎক্ষণিক একসাথে রেন্ডার হবে (কোনো ব্ল্যাংক স্ক্রিন থাকবে না)
     initHeroSlider();
