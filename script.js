@@ -294,9 +294,9 @@ async function loadContentDatabase() {
 const databaseLoadPromise = loadContentDatabase();
 
 const categories = [
-    "all", "Hollywood", "Hollywood Series", "Animation",
-    "Korean Country", "Korean Series", "Bollywood", "South", "Chinese",
-    "Bollywood Series", "Adult Comedy", "Others"
+    "all", "Hollywood", "Hollywood Series", "Bollywood",
+    "Bollywood Series", "South", "Korean Country", "Korean Series", "Chinese",
+    "Animation", "Adult Comedy", "Others"
 ];
 
 let currentItem = null;
