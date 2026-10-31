@@ -115,13 +115,17 @@ export async function onRequest(context) {
 
             const isAsianContent = ['Bollywood', 'South', 'Bollywood Series'].includes(targetMovie.category);
 
-            const movieDesc = isAsianContent
-                ? `Stream ${movieTitle} in HD Dual Audio [Hindi-English] with English subtitles on MustWatchHub.`
-                : `Watch ${movieTitle} online in 1080p / 4K UHD with English Subtitles & Multi-Audio on MustWatchHub.`;
-
-            const pageTitle = isAsianContent
-                ? `${movieTitle} Dual Audio [Hindi-English] HD - MustWatchHub`
-                : `Watch ${movieTitle} ${contentLabel} - MustWatchHub`;
+            // 🎯 হলিউডের জন্য Watch Online + Multi-Audio এবং সাউথ/বলিউডের জন্য Dual Audio + Watch Online
+            let pageTitle = "";
+            if (isSeries) {
+                pageTitle = isAsianContent
+                    ? `${movieTitle} [Dual Audio] Watch Online Free HD | Must Watch Hub`
+                    : `Watch ${movieTitle} Online Free - All Episodes Streaming HD | Must Watch Hub`;
+            } else {
+                pageTitle = isAsianContent
+                    ? `${movieTitle} [Dual Audio Hindi-English] Watch Online HD - Must Watch Hub`
+                    : `Watch ${movieTitle} Online Free Full Movie HD (Eng Sub) - Must Watch Hub`;
+            }
 
             const currentMovieUrl = `https://mustwatchhub.com/${encodeURIComponent(movieSlug)}.html`;
 
@@ -137,7 +141,11 @@ export async function onRequest(context) {
             const duration = tmdb?.runtime || 'Full Feature Duration';
             const defaultAudioTag = isAsianContent ? 'Dual Audio [Hindi-English]' : 'English (Original) / Multi-Audio [Eng Sub]';
 
-            const synopsis = tmdb?.overview || `${movieTitle} is a premier ${targetMovie.category || 'Cinema'} title released in ${targetMovie.year || '2026'}. Featuring ${targetMovie.language || defaultAudioTag} presentation, this release captures exceptional storytelling, high-fidelity sound design, and vivid visual sequences. Viewers can explore complete media specifications, stream links, and technical playback overview directly on MustWatchHub.`;
+            const synopsis = tmdb?.overview || targetMovie.detailedPlotSummary || `${movieTitle} is a premier ${targetMovie.category || 'Cinema'} release featuring ${castList}. Explore full storyline, stream mirrors, and cast lineup on Must Watch Hub.`;
+
+            // 🎯 মেটা ডেসক্রিপশনে Watch Online, Dual Audio এবং স্টোরিলাইন একসাথে ব্লেন্ড করা
+            const cleanSynopsis = synopsis.replace(/"/g, '&quot;').trim();
+            const movieDesc = `Watch ${movieTitle} online in 1080p HD with ${defaultAudioTag} & English Subtitles (ESub). ${cleanSynopsis.slice(0, 100)}...`;
 
             const dynamicCanonicalTag = `<link rel="canonical" href="${currentMovieUrl}">`;
             if (html.match(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i)) {
@@ -165,13 +173,20 @@ export async function onRequest(context) {
                 }
             });
 
+            const movieKeywords = isAsianContent
+                ? `${cleanTitle}, watch ${cleanTitle} online free, ${cleanTitle} full movie hd, ${cleanTitle} dual audio hindi english, ${cleanTitle} hindi dubbed, ${cleanTitle} ${movieYear} stream online, ${cleanTitle} ott release date, ${cleanTitle} download 1080p 720p`
+                : `watch ${cleanTitle} online free, ${cleanTitle} full movie streaming, stream ${cleanTitle} 1080p 4k, ${cleanTitle} english subtitles esub, where to watch ${cleanTitle}, ${cleanTitle} ${movieYear} cast and plot, ${cleanTitle} official streaming mirror`;
+
             const movieSchema = {
                 "@context": "https://schema.org",
-                "@type": "Movie",
-                "name": movieTitle,
+                "@type": isSeries ? "TVSeries" : "Movie",
+                "name": cleanTitle,
+                "alternateName": `${cleanTitle} (${movieYear})`,
                 "image": moviePosterUrl,
                 "genre": targetMovie.genre || 'Action, Drama',
+                "datePublished": movieYear,
                 "description": synopsis,
+                "keywords": movieKeywords,
                 "inLanguage": isAsianContent ? ["hi", "en"] : ["en", "multi"]
             };
             const schemaScript = `<script type="application/ld+json">${JSON.stringify(movieSchema)}</script>`;
@@ -202,13 +217,19 @@ export async function onRequest(context) {
                         <h2 style="font-size: 1.5rem; color: #ffffff; margin-bottom: 12px;">Detailed Storyline & Synopsis</h2>
                         <p style="color: #dddddd; font-size: 1rem; text-align: justify; background: rgba(0,0,0,0.4); padding: 20px; border-radius: 10px; border-left: 4px solid #e50914;">${synopsis}</p>
                     </section>
-                    <section style="margin-bottom: 35px;">
+                    <section data-nosnippet style="margin-bottom: 35px;">
                         <h2 style="font-size: 1.3rem; color: #ffffff; margin-bottom: 12px;">Playback & Audio Compatibility Guide</h2>
                         <p style="color: #aaaaaa; font-size: 0.95rem; text-align: justify;">This media container for ${movieTitle} is formatted in x265 HEVC MKV structure, offering dual audio tracks including softcoded English subtitles (ESub). Optimized for seamless cloud streaming across Google Chrome, PC, Mobile, Smart TV, and Chromecast setups.</p>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1);">
+                            <p style="color: #777777; font-size: 0.8rem; margin: 0; line-height: 1.6;">
+                                <strong>Related Searches:</strong> Watch ${cleanTitle} online free hd, ${cleanTitle} full movie stream, ${cleanTitle} dual audio hindi english 1080p, ${cleanTitle} english subtitles esub, where to stream ${cleanTitle} free, ${cleanTitle} ott web series episodes online on Must Watch Hub (MovieDekhi).
+                            </p>
+                        </div>
                     </section>
                 </article>
             `;
-            html = html.replace('<div id="seo-ssr-content"></div>', `<div id="seo-ssr-content">${seoBodyContent}</div>`);
+            html = html.replace(/<div id="seo-ssr-content"[^>]*>[\s\S]*?<\/div>/i, `<div id="seo-ssr-content">${seoBodyContent}</div>`);
 
             const finalResponse = new Response(html, {
                 headers: {

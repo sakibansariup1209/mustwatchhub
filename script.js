@@ -116,7 +116,7 @@ function renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear
                 </p>
             </div>
 
-            <div class="space-y-2">
+            <div class="space-y-2" data-nosnippet>
                 <h3 class="text-xs md:text-sm font-black text-white uppercase tracking-wider flex items-center gap-2">
                     <i class="fas fa-tv text-blue-500"></i> Media & Playback Overview
                 </h3>
@@ -152,7 +152,7 @@ function renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear
                 </div>
             </div>
 
-            <div class="pt-3 border-t border-white/5">
+<div class="pt-3 border-t border-white/5" data-nosnippet>
                 <p class="text-[10px] text-gray-600 leading-relaxed text-justify opacity-40 font-normal">
                     ${dynamicFooterKeywords}
                 </p>
@@ -885,7 +885,7 @@ function switchView(viewName, filterCategory = null, mode = true, restoredCount 
 
     if (viewName === 'home') {
         if (homeView) homeView.classList.add('active');
-        document.title = "MustWatchHub | Watch HD Movies & Series Free Online (English & Dual Audio)";
+        document.title = "Must Watch Hub | Watch HD Movies & Series Online (MovieDekhi)";
         if (searchInput) {
             searchInput.value = '';
             updateSearchUI();
@@ -898,7 +898,7 @@ function switchView(viewName, filterCategory = null, mode = true, restoredCount 
             preSearchState = null;
         }
 
-        document.title = filterCategory && filterCategory !== 'all' ? `${filterCategory.replace(/\+/g, ' ')} Movies - MustWatchHub` : "All Movies & Web Series - MustWatchHub";
+        document.title = filterCategory && filterCategory !== 'all' ? `${filterCategory.replace(/\+/g, ' ')} Movies - Must Watch Hub` : "All Movies & Web Series - Must Watch Hub";
 
         const catValue = filterCategory || 'all';
         document.querySelectorAll('#libraryFilters .category-pill').forEach(p => p.classList.remove('active'));
@@ -1260,7 +1260,7 @@ function executeActualOpenModal(id) {
     }
 
     const isSeries = item.episodes && item.episodes.length > 0;
-    const contentType = isSeries ? "Web Series All Episodes" : "Full Movie";
+    const contentType = isSeries ? "All Episodes, Cast & Storyline" : "Cast, Storyline & Stream Info";
     const titleKey = item.title;
 
     const yearMatch = titleKey.match(/\((\d{4})\)/);
@@ -1273,7 +1273,7 @@ function executeActualOpenModal(id) {
         ? item.language
         : (item.category?.includes('Hollywood') ? "English (Original) / Multi-Audio • ESub" : "Dual Audio [Hindi-English] • ESub");
 
-    document.title = `${SEOFullTitle} [${cleanLang}] | ${contentType} Media Details & Info - MustWatchHub`;
+    document.title = `${SEOFullTitle} [${cleanLang}] | ${contentType} Media Details & Info - Must Watch Hub`;
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
@@ -1281,7 +1281,9 @@ function executeActualOpenModal(id) {
         metaDescription.name = "description";
         document.head.appendChild(metaDescription);
     }
-    metaDescription.content = `${SEOFullTitle} ${contentType} media details and stream overview. Access ${titleKey} in ${cleanLang} with English Subtitles (ESub) HEVC x265 on MustWatchHub.`;
+    if (item.detailedPlotSummary) {
+        metaDescription.content = item.detailedPlotSummary.slice(0, 158);
+    }
 
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
@@ -1310,8 +1312,8 @@ function executeActualOpenModal(id) {
     if (document.getElementById('modalCategory')) document.getElementById('modalCategory').innerText = item.category;
 
     const dynamicFooterKeywords = isSeries ?
-        `${titleKey} web series overview, ${titleKey} episodes details, ${titleKey} season info, ${titleKey} dual audio hindi english series, ${titleKey} english subtitles esub, ${titleKey} media reference, must-watch-hub series review.` :
-        `${titleKey} movie overview, ${titleKey} streaming details, ${titleKey} dual audio hindi english media, ${titleKey} english subtitles esub, ${titleKey} release info, must-watch-hub review.`;
+        `watch ${titleKey} online free, ${titleKey} web series all episodes streaming, watch ${titleKey} online hd 1080p, ${titleKey} dual audio hindi english series, ${titleKey} full season english subtitles esub, where to watch ${titleKey} free, ${titleKey} ott release date, stream ${titleKey} on must watch hub.` :
+        `watch ${titleKey} online free, watch ${titleKey} full movie hd, ${titleKey} stream online 1080p 4k, ${titleKey} dual audio hindi english movie, ${titleKey} hindi dubbed watch online, ${titleKey} with english subtitles esub, ${titleKey} movie download free, must watch hub movie stream.`;
 
     if (document.getElementById('modalDesc')) {
         renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear, contentType, dynamicFooterKeywords, null);
@@ -1319,6 +1321,11 @@ function executeActualOpenModal(id) {
         getClientTMDBDetails(item.title, releaseYear).then(tmdbData => {
             if (tmdbData) {
                 renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear, contentType, dynamicFooterKeywords, tmdbData);
+                if (tmdbData.overview) {
+                    const autoPlot = tmdbData.overview.length > 158 ? `${tmdbData.overview.slice(0, 155)}...` : tmdbData.overview;
+                    metaDescription.content = autoPlot;
+                    setMetaTag('property', 'og:description', autoPlot);
+                }
             }
         });
     }
@@ -1472,8 +1479,8 @@ function closeModal(triggerBack = false, isUserAction = false) {
             window.history.replaceState({ ...currentState, isModalOpen: false }, '', rootUrl);
         } catch (e) { }
         document.title = currentView === 'home'
-            ? "MustWatchHub | Watch HD Movies & Series Free Online (English & Dual Audio)"
-            : "All Movies & Web Series - MustWatchHub";
+            ? "Must Watch Hub | Watch HD Movies & Series Online (MovieDekhi)"
+            : "All Movies & Web Series - Must Watch Hub";
     }
 
     setTimeout(() => { isModalClosing = false; }, 350);
