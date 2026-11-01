@@ -115,15 +115,15 @@ export async function onRequest(context) {
 
             const isAsianContent = ['Bollywood', 'South', 'Bollywood Series'].includes(targetMovie.category);
 
-            // 🎯 হলিউডের জন্য Watch Online + Multi-Audio এবং সাউথ/বলিউডের জন্য Dual Audio + Watch Online
+            // 🎯 ১. সর্বোচ্চ পাওয়ারফুল Page Title (Dual Audio + Watch Online + Tier-1 সার্চ ফ্রেন্ডলি)
             let pageTitle = "";
             if (isSeries) {
                 pageTitle = isAsianContent
-                    ? `${movieTitle} [Dual Audio] Watch Online Free HD | Must Watch Hub`
+                    ? `${movieTitle} Dual Audio [Hindi-English] Watch Online Free HD | Must Watch Hub`
                     : `Watch ${movieTitle} Online Free - All Episodes Streaming HD | Must Watch Hub`;
             } else {
                 pageTitle = isAsianContent
-                    ? `${movieTitle} [Dual Audio Hindi-English] Watch Online HD - Must Watch Hub`
+                    ? `${movieTitle} Dual Audio [Hindi-English] HD Watch Online - Must Watch Hub`
                     : `Watch ${movieTitle} Online Free Full Movie HD (Eng Sub) - Must Watch Hub`;
             }
 
@@ -143,9 +143,11 @@ export async function onRequest(context) {
 
             const synopsis = tmdb?.overview || targetMovie.detailedPlotSummary || `${movieTitle} is a premier ${targetMovie.category || 'Cinema'} release featuring ${castList}. Explore full storyline, stream mirrors, and cast lineup on Must Watch Hub.`;
 
-            // 🎯 মেটা ডেসক্রিপশনে Watch Online, Dual Audio এবং স্টোরিলাইন একসাথে ব্লেন্ড করা
+            // 🎯 ২. মেটা ডেসক্রিপশন: আপনার পছন্দের শক্তিশালী পাওয়ার-কীওয়ার্ড + TMDB ইউনিক স্টোরিলাইন ব্লেন্ড
             const cleanSynopsis = synopsis.replace(/"/g, '&quot;').trim();
-            const movieDesc = `Watch ${movieTitle} online in 1080p HD with ${defaultAudioTag} & English Subtitles (ESub). ${cleanSynopsis.slice(0, 100)}...`;
+            const movieDesc = isAsianContent
+                ? `Stream ${movieTitle} in HD Dual Audio [Hindi-English] with English subtitles on Must Watch Hub. ${cleanSynopsis.slice(0, 75)}...`
+                : `Watch ${movieTitle} online in 1080p / 4K UHD with English Subtitles & Multi-Audio on Must Watch Hub. ${cleanSynopsis.slice(0, 70)}...`;
 
             const dynamicCanonicalTag = `<link rel="canonical" href="${currentMovieUrl}">`;
             if (html.match(/<link\s+rel="canonical"\s+href=".*?"\s*\/?>/i)) {
