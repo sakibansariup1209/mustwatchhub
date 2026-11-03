@@ -1273,7 +1273,17 @@ function executeActualOpenModal(id) {
         ? item.language
         : (item.category?.includes('Hollywood') ? "English (Original) / Multi-Audio • ESub" : "Dual Audio [Hindi-English] • ESub");
 
-    document.title = `${SEOFullTitle} [${cleanLang}] | ${contentType} Media Details & Info - Must Watch Hub`;
+    // 🎯 SSR ([[path]].js) এর সাথে হুবহু সামঞ্জস্যপূর্ণ হাই-সিপিএম পাওয়ার টাইটেল
+    const isAsian = ['Bollywood', 'South', 'Bollywood Series'].includes(item.category);
+    if (isSeries) {
+        document.title = isAsian
+            ? `${SEOFullTitle} Dual Audio [Hindi-English] Watch Online Free HD | Must Watch Hub`
+            : `Watch ${SEOFullTitle} Online Free - All Episodes Streaming HD | Must Watch Hub`;
+    } else {
+        document.title = isAsian
+            ? `${SEOFullTitle} Dual Audio [Hindi-English] HD Watch Online - Must Watch Hub`
+            : `Watch ${SEOFullTitle} Online Free Full Movie HD (Eng Sub) - Must Watch Hub`;
+    }
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
@@ -2456,3 +2466,17 @@ function renderModalSuggestions(currentMovie) {
     initSuggestionMouseDrag();
     container.scrollLeft = 0;
 }
+
+// ⌨️ TIER-1 DESKTOP ACCESSIBILITY: ESCAPE KEY MODAL DISMISS
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.keyCode === 27) {
+        const modal = document.getElementById('movieModal');
+        const catMenu = document.getElementById('categoryMenu');
+        
+        if (modal && modal.classList.contains('active')) {
+            closeModal(true, true);
+        } else if (catMenu && catMenu.classList.contains('active')) {
+            toggleCategoryMenu(false);
+        }
+    }
+});

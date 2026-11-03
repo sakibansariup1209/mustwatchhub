@@ -2,10 +2,12 @@
 User-agent: Googlebot
 Allow: /
 Allow: /?category=
+Disallow: /movies.json
 
 User-agent: Bingbot
 Allow: /
 Allow: /?category=
+Disallow: /movies.json
 
 # 🚀 2. BLOCK KNOWN ANTI-PIRACY CRAWLERS & SCRAPERS
 User-agent: AhrefsBot

@@ -164,7 +164,10 @@ export async function onRequest(context) {
                 { regex: /<meta\s+property="og:title"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:title" content="${pageTitle}">` },
                 { regex: /<meta\s+property="og:description"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:description" content="${movieDesc}">` },
                 { regex: /<meta\s+property="og:url"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:url" content="${currentMovieUrl}">` },
-                { regex: /<meta\s+property="og:image"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:image" content="${moviePosterUrl}">` }
+                { regex: /<meta\s+property="og:image"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:image" content="${moviePosterUrl}">` },
+                { regex: /<meta\s+property="og:type"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="og:type" content="video.movie">` },
+                { regex: /<meta\s+property="video:release_date"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="video:release_date" content="${movieYear}">` },
+                { regex: /<meta\s+property="video:director"\s+content=".*?"\s*\/?>/i, replacement: `<meta property="video:director" content="${directorName}">` }
             ];
 
             metaMatches.forEach(item => {
@@ -176,8 +179,9 @@ export async function onRequest(context) {
             });
 
             const movieKeywords = isAsianContent
-                ? `${cleanTitle}, watch ${cleanTitle} online free, ${cleanTitle} full movie hd, ${cleanTitle} dual audio hindi english, ${cleanTitle} hindi dubbed, ${cleanTitle} ${movieYear} stream online, ${cleanTitle} ott release date, ${cleanTitle} download 1080p 720p`
-                : `watch ${cleanTitle} online free, ${cleanTitle} full movie streaming, stream ${cleanTitle} 1080p 4k, ${cleanTitle} english subtitles esub, where to watch ${cleanTitle}, ${cleanTitle} ${movieYear} cast and plot, ${cleanTitle} official streaming mirror`;
+                ? `${cleanTitle}, watch ${cleanTitle} online free, ${cleanTitle} full movie hd, ${cleanTitle} dual audio hindi english, ${cleanTitle} hindi dubbed, ${cleanTitle} ${movieYear} stream online, ${cleanTitle} ott release date, ${cleanTitle} download 1080p 720p, ${cleanTitle} (${movieYear}) watch online free, watch ${cleanTitle} hindi movie free online, watch online hindi dubbed movies ${cleanTitle}, ${cleanTitle} movie watch online, watch free hd movies ${cleanTitle}, onlinewatchmovie ${cleanTitle}, hd movies watch ${cleanTitle}, ${cleanTitle} vegamovies, ${cleanTitle} bollyflix, ${cleanTitle} filmyzilla, ${cleanTitle} katmoviehd, ${cleanTitle} hdhub4u, ${cleanTitle} prmovies, ${cleanTitle} movielinkbd, ${cleanTitle} mlwbd, ${cleanTitle} ibomma, sites like vegamovies ${cleanTitle}, ${cleanTitle} einthusan, ${cleanTitle} movierulz, ${cleanTitle} tamilrockers, ${cleanTitle} full movie with english subtitles, watch ${cleanTitle} online free reddit, where can i watch ${cleanTitle} hindi dubbed, ${cleanTitle} full movie hindi dubbed 1080p, ${cleanTitle} online stream free no registration, sites like bollyflix ${cleanTitle}, sites like hdhub4u ${cleanTitle}, is ${cleanTitle} on netflix, where to watch ${cleanTitle} on prime video, watch ${cleanTitle} on smart tv free, stream ${cleanTitle} on firestick, cast ${cleanTitle} to chromecast hd`
+
+                : `watch ${cleanTitle} online free, ${cleanTitle} full movie streaming, stream ${cleanTitle} 1080p 4k, ${cleanTitle} english subtitles esub, where to watch ${cleanTitle}, ${cleanTitle} ${movieYear} cast and plot, ${cleanTitle} official streaming mirror, ${cleanTitle} (${movieYear}) watch online free, watch free hd movies ${cleanTitle}, watch ${cleanTitle} hd movies online, onlinewatchmovie ${cleanTitle}, watch ${cleanTitle} full movie free no sign up, ${cleanTitle} streaming site free, stream ${cleanTitle} full movie eng sub, ${cleanTitle} 123movies, ${cleanTitle} fmovies, ${cleanTitle} hdhub4u, ${cleanTitle} prmovies, ${cleanTitle} movielinkbd, ${cleanTitle} mlwbd, ${cleanTitle} soap2day, ${cleanTitle} solarmovie, ${cleanTitle} lookmovie, sites like 123movies ${cleanTitle}, ${cleanTitle} putlocker, ${cleanTitle} hurawatch, ${cleanTitle} bflix, ${cleanTitle} flixhq, watch ${cleanTitle} online free reddit, where can i watch ${cleanTitle} for free, how to watch ${cleanTitle} free online, ${cleanTitle} free movie no registration, ${cleanTitle} stream free 4k uhd, sites like fmovies ${cleanTitle}, sites like soap2day ${cleanTitle}, watch ${cleanTitle} full movie online uk, watch ${cleanTitle} online free usa, is ${cleanTitle} on netflix free, watch ${cleanTitle} on prime video free, stream ${cleanTitle} hulu disney alternative, watch ${cleanTitle} on smart tv 4k, stream ${cleanTitle} on firestick free, airplay ${cleanTitle} to apple tv`;
 
             const movieSchema = {
                 "@context": "https://schema.org",
@@ -193,6 +197,98 @@ export async function onRequest(context) {
             };
             const schemaScript = `<script type="application/ld+json">${JSON.stringify(movieSchema)}</script>`;
             html = html.replace('</head>', `    ${schemaScript}\n</head>`);
+
+            // 🎯 নতুন অ্যাডিশন: ব্রেডক্রাম্ব স্কিমা (আগের কোনো কোড না কেটে এর সাথে যোগ করুন)
+            const breadcrumbSchema = {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://mustwatchhub.com/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": targetMovie.category || "Movies",
+                        "item": `https://mustwatchhub.com/?view=library&category=${encodeURIComponent(targetMovie.category || 'all')}`
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": cleanTitle,
+                        "item": currentMovieUrl
+                    }
+                ]
+            };
+            const breadcrumbScript = `<script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
+            html = html.replace('</head>', `    ${breadcrumbScript}\n</head>`);
+
+            // 🎯 গুগল Rich Snippets & People Also Ask (PAA) এর জন্য সর্বাধিক সার্চ হওয়া FAQ স্কিমা
+            const faqSchema = {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": `Where can I watch ${cleanTitle} (${movieYear}) online for free?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `You can stream and explore storyline overviews, verified audio details, cast lineup, and high-speed cloud playback mirrors for ${cleanTitle} in 1080p Full HD on Must Watch Hub.`
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `Is ${cleanTitle} available on Netflix, Amazon Prime, or Disney+?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `OTT availability varies by region. On Must Watch Hub, you can find the complete release guide, official streaming mirrors, and technical specifications for ${cleanTitle} without platform restrictions.`
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `Does ${cleanTitle} have English Subtitles (ESub) and Dual Audio?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `Yes, ${cleanTitle} is presented with ${defaultAudioTag} along with softcoded English subtitles (ESub) for seamless multi-language viewing.`
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `Can I watch ${cleanTitle} online without registration or signing up?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `Yes, Must Watch Hub allows you to access movie storylines, production specifications, and streaming player references for ${cleanTitle} completely free with no registration or subscription required.`
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `What video quality options are available for ${cleanTitle}?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `${cleanTitle} is encoded in high-efficiency x265 HEVC MKV format, supporting crisp 720p, 1080p Full HD, and 4K Ultra HD playback resolutions.`
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": `Can I stream ${cleanTitle} on Smart TV, Firestick, and Mobile devices?`,
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": `Yes, the video players and media container references for ${cleanTitle} are fully responsive and optimized for Google Chrome, Android, iOS, Smart TV, Firestick, and Chromecast setups.`
+                        }
+                    }
+                ]
+            };
+            const faqScript = `<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`;
+            html = html.replace('</head>', `    ${faqScript}\n</head>`);
+
+            // 🎯 বডির ভেতরের জন্য ডায়নামিক রিলেটেড কুয়েরি স্ট্রিং
+            const bodyRelatedQueries = isAsianContent
+                ? `Watch ${cleanTitle} online free hd, ${cleanTitle} full movie stream, ${cleanTitle} dual audio hindi english 1080p, ${cleanTitle} english subtitles esub, where to stream ${cleanTitle} free, ${cleanTitle} ott web series episodes online on Must Watch Hub (MovieDekhi), ${cleanTitle} (${movieYear}) watch online free, watch ${cleanTitle} hindi movie free online, watch online hindi dubbed movies ${cleanTitle}, ${cleanTitle} movie watch online, ${cleanTitle} vegamovies, ${cleanTitle} bollyflix, ${cleanTitle} filmyzilla, ${cleanTitle} hdhub4u, ${cleanTitle} einthusan, sites like vegamovies ${cleanTitle}, watch ${cleanTitle} online free reddit.`
+
+                : `Watch ${cleanTitle} online free hd, ${cleanTitle} full movie stream, ${cleanTitle} dual audio hindi english 1080p, ${cleanTitle} english subtitles esub, where to stream ${cleanTitle} free, ${cleanTitle} ott web series episodes online on Must Watch Hub (MovieDekhi), ${cleanTitle} (${movieYear}) watch online free, watch free hd movies ${cleanTitle}, watch ${cleanTitle} hd movies online, onlinewatchmovie ${cleanTitle}, watch ${cleanTitle} full movie free no sign up, ${cleanTitle} 123movies, ${cleanTitle} fmovies, ${cleanTitle} soap2day, ${cleanTitle} putlocker, sites like 123movies ${cleanTitle}, watch ${cleanTitle} online free reddit, watch ${cleanTitle} online free usa, watch ${cleanTitle} full movie online uk.`;
 
             const seoBodyContent = `
                 <article style="padding: 60px 20px; color: white; max-width: 900px; margin: 0 auto; font-family: sans-serif; line-height: 1.7;">
@@ -222,11 +318,27 @@ export async function onRequest(context) {
                     <section data-nosnippet style="margin-bottom: 35px;">
                         <h2 style="font-size: 1.3rem; color: #ffffff; margin-bottom: 12px;">Playback & Audio Compatibility Guide</h2>
                         <p style="color: #aaaaaa; font-size: 0.95rem; text-align: justify;">This media container for ${movieTitle} is formatted in x265 HEVC MKV structure, offering dual audio tracks including softcoded English subtitles (ESub). Optimized for seamless cloud streaming across Google Chrome, PC, Mobile, Smart TV, and Chromecast setups.</p>
-                        
+
+                        <!-- 🚀 ১. উন্নত ও ডায়নামিক রিলেটেড সার্চ কুয়েরিজ ব্লক -->
                         <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1);">
                             <p style="color: #777777; font-size: 0.8rem; margin: 0; line-height: 1.6;">
-                                <strong>Related Searches:</strong> Watch ${cleanTitle} online free hd, ${cleanTitle} full movie stream, ${cleanTitle} dual audio hindi english 1080p, ${cleanTitle} english subtitles esub, where to stream ${cleanTitle} free, ${cleanTitle} ott web series episodes online on Must Watch Hub (MovieDekhi).
+                                <strong>Related Searches:</strong> ${bodyRelatedQueries}
                             </p>
+                        </div>
+
+                        <!-- 🚀 ২. গুগল "People Also Ask" (PAA) টার্গেটেড স্ট্রিমিং FAQ ব্লক -->
+                        <div style="margin-top: 20px; padding: 16px; background: rgba(255,255,255,0.015); border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+                            <h3 style="font-size: 0.95rem; color: #ffffff; margin: 0 0 10px 0; font-weight: 700;">Frequently Asked Questions</h3>
+                            <div style="color: #888888; font-size: 0.8rem; line-height: 1.6;">
+                                <p style="margin: 0 0 8px 0;">
+                                    <strong style="color: #bbbbbb;">Q: Where can I stream ${cleanTitle} (${movieYear}) online?</strong><br>
+                                    A: Must Watch Hub provides storyline overviews, verified media specifications, and high-speed streaming cloud references for ${cleanTitle} without requiring upfront registration.
+                                </p>
+                                <p style="margin: 0;">
+                                    <strong style="color: #bbbbbb;">Q: Is ${cleanTitle} available in ${isAsianContent ? 'Hindi Dubbed / Dual Audio' : 'English with Subtitles'}?</strong><br>
+                                    A: Yes, this release features ${defaultAudioTag} alongside softcoded English subtitles (ESub) compatible across PC, Android, iOS, and Smart TVs.
+                                </p>
+                            </div>
                         </div>
                     </section>
                 </article>
