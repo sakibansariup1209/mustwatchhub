@@ -1192,8 +1192,15 @@ function initLibraryRender(filter = "all", initialCount = 0) {
     }
 }
 
+let libraryScrollObserver = null;
+
 function renderLibraryChunk() {
     if (isLoading) return;
+    if (libraryDisplayedCount >= libraryData.length) {
+        updateLoadMoreVisibility();
+        return;
+    }
+
     isLoading = true;
 
     const nextCount = libraryDisplayedCount + ITEMS_PER_PAGE;
@@ -1207,12 +1214,12 @@ function renderLibraryChunk() {
             fragment.appendChild(createMovieCard(item));
         });
         subGrid.appendChild(fragment);
-        libraryDisplayedCount = nextCount;
+        libraryDisplayedCount = Math.min(nextCount, libraryData.length);
         subGrid.dataset.displayedCount = libraryDisplayedCount;
-        updateLoadMoreVisibility();
     }
 
     isLoading = false;
+    updateLoadMoreVisibility();
 }
 
 function updateLoadMoreVisibility() {
@@ -1221,9 +1228,33 @@ function updateLoadMoreVisibility() {
 
     if (libraryDisplayedCount < libraryData.length) {
         loading.classList.remove('hidden');
+        setupLibraryInfiniteObserver();
     } else {
         loading.classList.add('hidden');
+        if (libraryScrollObserver) {
+            libraryScrollObserver.disconnect();
+        }
     }
+}
+
+// 🚀 মোবাইল ও ডেস্কটপের জন্য 800px প্রি-ফেচিং অবজারভার
+function setupLibraryInfiniteObserver() {
+    const loading = document.getElementById('loadingIndicator');
+    if (!loading || libraryScrollObserver) return;
+
+    libraryScrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !isLoading && libraryDisplayedCount < libraryData.length) {
+                renderLibraryChunk();
+            }
+        });
+    }, {
+        root: null,
+        rootMargin: '800px 0px', // ইউজার পৌঁছানোর ৮০০ পিক্সেল আগেই স্বয়ংক্রিয়ভাবে লোড হবে
+        threshold: 0.01
+    });
+
+    libraryScrollObserver.observe(loading);
 }
 
 function openModal(id) {
@@ -1746,7 +1777,8 @@ window.addEventListener('scroll', () => {
 
     if (currentView === 'library') {
         const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-        if (scrollTop + clientHeight >= scrollHeight - 500) {
+        // 🚀 মোবাইলে যাতে আটকে না থাকে, তাই ১০০০ পিক্সেল আগেই লোড ট্রিগার হবে
+        if (scrollTop + clientHeight >= scrollHeight - 1000) {
             if (!isLoading && libraryDisplayedCount < libraryData.length) {
                 renderLibraryChunk();
             }
@@ -1854,9 +1886,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (movieSlug) {
         const targetMovie = contentData.find(m => m.slug === movieSlug);
         if (targetMovie) {
-            setTimeout(() => {
-                openModal(targetMovie.id);
-            }, 300);
+            openModal(targetMovie.id);
         }
     }
 });
