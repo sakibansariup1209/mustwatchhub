@@ -79,7 +79,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     </noscript>
 
-<script type="application/ld+json">
+    <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -384,6 +384,13 @@
 
                     <!-- 🏷️ Metadata Pills -->
                     <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 my-3 sm:my-4">
+                        <!-- 🌟 TMDB LIVE RATING PILL -->
+                        <span id="modalRatingBadge"
+                            class="px-3 py-1 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[11px] sm:text-xs font-black uppercase tracking-wider inline-flex items-center gap-1.5 shadow-sm">
+                            <i class="fas fa-star text-amber-400 text-xs animate-pulse"></i>
+                            <span id="modalRatingText">TMDB --</span>
+                        </span>
+
                         <span id="modalLanguage" class="lang-badge">Hindi</span>
                         <span id="modalCategory"
                             class="px-3 py-1 rounded-md bg-white/5 border border-white/10 text-gray-300 text-[11px] sm:text-xs font-bold uppercase tracking-wider">Hollywood</span>
@@ -450,8 +457,8 @@
                     </div>
 
                     <div id="seriesSection"
-                        class="hidden mb-6 p-4 md:p-6 bg-zinc-900/80 border border-white/10 rounded-2xl backdrop-blur-md shadow-2xl">
-                        <h4 class="text-xs md:text-sm font-black text-gray-400 uppercase mb-3 tracking-[0.2em]"
+                        class="hidden mb-6 p-4 md:p-6 bg-zinc-900/80 border border-white/60 rounded-2xl backdrop-blur-md shadow-2xl">
+                        <h4 class="text-xs md:text-sm font-black text-white-400 uppercase mb-3 tracking-[0.2em]"
                             id="seriesInfoText">Season 1 • Episodes</h4>
                         <div id="episodeList" class="flex flex-wrap justify-center gap-2 md:gap-3"></div>
                     </div>

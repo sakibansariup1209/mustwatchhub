@@ -255,11 +255,72 @@ body {
     opacity: 1 !important;
 }
 
-.episode-btn.active {
-    background-color: var(--primary-red);
-    color: white;
+/* ========================================== */
+/* 🍿 ULTRA-NOTICEABLE EPISODE BUTTON STYLES  */
+/* ========================================== */
+.episode-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    color: #e4e4e7;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    outline: none;
+    user-select: none;
 }
 
+.episode-btn:hover {
+    background: rgba(229, 9, 20, 0.15);
+    border-color: rgba(229, 9, 20, 0.6);
+    color: #ffffff;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.3);
+}
+
+.episode-btn:active {
+    transform: scale(0.96);
+}
+
+/* 🎯 সক্রিয় / PLAYING বাটন (সবচেয়ে বেশি চোখে পড়ার মতো) */
+.episode-btn.active {
+    background: linear-gradient(135deg, #e50914 0%, #b91c1c 50%, #7f1d1d 100%) !important;
+    border-color: #fca5a5 !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 8px 25px rgba(229, 9, 20, 0.75), 0 0 0 2px rgba(229, 9, 20, 0.4) !important;
+    animation: epPulseGlow 2s infinite alternate !important;
+}
+
+.episode-btn.active i {
+    color: #ffffff !important;
+    animation: bounceRight 1s infinite alternate;
+}
+
+@keyframes epPulseGlow {
+    0% {
+        box-shadow: 0 6px 20px rgba(229, 9, 20, 0.6), 0 0 0 2px rgba(229, 9, 20, 0.3);
+    }
+    100% {
+        box-shadow: 0 10px 30px rgba(229, 9, 20, 0.95), 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+}
+
+@keyframes bounceRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(2.5px); }
+}
 /* ==================================================== */
 /* ENHANCED MOBILE FAB STYLING                          */
 /* ==================================================== */

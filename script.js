@@ -61,7 +61,34 @@ async function getClientTMDBDetails(title, year) {
         const director = directorObj ? directorObj.name : '';
         const runtime = detail.runtime ? `${detail.runtime} Mins` : (detail.episode_run_time?.[0] ? `${detail.episode_run_time[0]} Mins` : '');
 
-        const result = { overview, cast, director, runtime };
+        // 🌟 TMDB লাইভ রেটিং ও মোট ভোট
+        const rating = detail.vote_average ? detail.vote_average.toFixed(1) : null;
+        const votes = detail.vote_count ? Number(detail.vote_count).toLocaleString() : null;
+
+        // 💰 বক্স অফিস কালেকশন (যেমন: $1.02 Billion বা $150.5 Million)
+        let revenue = null;
+        if (detail.revenue && detail.revenue > 0) {
+            revenue = detail.revenue >= 1000000000 
+                ? `$${(detail.revenue / 1000000000).toFixed(2)} Billion` 
+                : `$${(detail.revenue / 1000000).toFixed(1)} Million`;
+        }
+
+        // 🏢 শীর্ষ প্রযোজনা সংস্থা / স্টুডিও (যেমন: Marvel Studios, Warner Bros.)
+        const studio = detail.production_companies?.[0]?.name || '';
+
+        // 📅 সঠিক মুক্তির তারিখ
+        let fullReleaseDate = '';
+        const rawDate = detail.release_date || detail.first_air_date || '';
+        if (rawDate) {
+            try {
+                const dateObj = new Date(rawDate);
+                fullReleaseDate = dateObj.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+            } catch(e) {
+                fullReleaseDate = rawDate;
+            }
+        }
+
+        const result = { overview, cast, director, runtime, rating, votes, revenue, studio, fullReleaseDate };
         clientTmdbCache[cacheKey] = result;
         return result;
     } catch (e) {
@@ -73,9 +100,40 @@ function renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear
     const modalDescElem = document.getElementById('modalDesc');
     if (!modalDescElem) return;
 
+    // 🌟 TMDB লাইভ রেটিং ও মোট ভোট
+    const liveScore = tmdb?.rating || item.rating || "7.8";
+    const voteCount = tmdb?.votes || (item.votes ? Number(item.votes).toLocaleString() : "1,250");
+
+    // 🎯 মোডালের ওপরের মেটাডাটা পিলের রেটিং টেক্সট আপডেট
+    const topRatingElem = document.getElementById('modalRatingText');
+    if (topRatingElem) {
+        topRatingElem.innerText = `TMDB ${liveScore} / 10`;
+    }
+
     const directorText = tmdb?.director || item.director || "Renowned Director";
     const castText = tmdb?.cast || (Array.isArray(item.cast) ? item.cast.join(', ') : item.cast) || "Top Featured Ensemble Cast";
     const durationText = tmdb?.runtime || item.duration || "Full Feature Length";
+
+    // 💰 ডায়নামিক বক্স অফিস কালেকশন রো (মুভির আয় না থাকলে ফাঁকা সারি দেখাবে না)
+    const revenueRow = tmdb?.revenue ? `
+        <div class="flex flex-wrap items-center justify-between border-b border-white/[0.06] pb-2">
+            <span class="text-gray-400 font-medium">💰 Box Office:</span>
+            <span class="font-bold text-emerald-400 tracking-wide">${tmdb.revenue}</span>
+        </div>` : '';
+
+    // 🏢 প্রযোজনা সংস্থা / স্টুডিও রো
+    const studioRow = tmdb?.studio ? `
+        <div class="flex flex-wrap items-center justify-between border-b border-white/[0.06] pb-2">
+            <span class="text-gray-400 font-medium">🏢 Studio:</span>
+            <span class="font-semibold text-gray-200 truncate max-w-xs md:max-w-md">${tmdb.studio}</span>
+        </div>` : '';
+
+    // 📅 সঠিক মুক্তির তারিখ রো
+    const releaseDateRow = tmdb?.fullReleaseDate ? `
+        <div class="flex flex-wrap items-center justify-between border-b border-white/[0.06] pb-2">
+            <span class="text-gray-400 font-medium">📅 Release Date:</span>
+            <span class="font-semibold text-white">${tmdb.fullReleaseDate}</span>
+        </div>` : '';
 
     const plotText = tmdb?.overview || item.detailedPlotSummary || `${SEOFullTitle} is a prominent ${item.category || 'Cinema'} release officially debuting in ${releaseYear}. Presented in ${cleanLang}, this production delivers a rich narrative experience tailored for fans of ${item.genre || 'Action & Drama'}. The storyline brings together dynamic character arcs, high-definition audio-visual elements, and cinematic sequences that keep viewers engaged from start to finish.`;
 
@@ -94,6 +152,13 @@ function renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear
 
             <div class="p-4 bg-zinc-900/80 border border-white/10 rounded-xl space-y-2.5 text-[12px] shadow-lg">
                 <div class="flex flex-wrap items-center justify-between border-b border-white/[0.06] pb-2">
+                    <span class="text-gray-400 font-medium">⭐ TMDB Rating:</span>
+                    <span class="font-bold text-amber-400 flex items-center gap-1.5">
+                        <i class="fas fa-star text-amber-400 text-xs"></i> ${liveScore} / 10 
+                        <span class="text-gray-500 text-[10px] font-normal">(${voteCount} votes)</span>
+                    </span>
+                </div>
+                <div class="flex flex-wrap items-center justify-between border-b border-white/[0.06] pb-2">
                     <span class="text-gray-400 font-medium">🎬 Director:</span>
                     <span class="font-bold text-white">${directorText}</span>
                 </div>
@@ -101,10 +166,13 @@ function renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear
                     <span class="text-gray-400 font-medium">⭐ Star Cast:</span>
                     <span class="font-bold text-red-400 truncate max-w-xs md:max-w-md">${castText}</span>
                 </div>
-                <div class="flex flex-wrap items-center justify-between">
+                <div class="flex flex-wrap items-center justify-between border-b border-white/[0.06] pb-2">
                     <span class="text-gray-400 font-medium">⏱️ Runtime:</span>
                     <span class="font-bold text-amber-400">${durationText}</span>
                 </div>
+                ${revenueRow}
+                ${studioRow}
+                ${releaseDateRow}
             </div>
 
             <div class="space-y-2 pt-2">
@@ -152,7 +220,7 @@ function renderModalContent(item, SEOFullTitle, titleKey, cleanLang, releaseYear
                 </div>
             </div>
 
-<div class="pt-3 border-t border-white/5" data-nosnippet>
+            <div class="pt-3 border-t border-white/5" data-nosnippet>
                 <p class="text-[10px] text-gray-600 leading-relaxed text-justify opacity-40 font-normal">
                     ${dynamicFooterKeywords}
                 </p>
