@@ -1138,11 +1138,61 @@ function initLibraryRender(filter = "all", initialCount = 0) {
         sourceArray = categoryIndexMap["Recent Adds"] || [];
     }
 
-    libraryData = sourceArray.filter(item => {
-        const matchesCat = filter === "all" || item.category === filter || (filter === "all" && item.category === "Recent Adds");
-        const matchesSearch = isSearch ? (cleanStr(item.title).includes(cleanQuery) || cleanStr(item.category).includes(cleanQuery) || cleanStr(item.genre).includes(cleanQuery)) : true;
-        return matchesCat && matchesSearch;
-    });
+    if (isSearch) {
+        libraryData = sourceArray
+            .map(item => {
+                const rawTitle = item.title || "";
+                // ১. টাইটেল থেকে ব্র্যাকেটের সাল বাদ দিয়ে ক্লিন মূল নাম নেওয়া (যেমন: "24 (2016)" -> "24")
+                const pureTitle = rawTitle.replace(/\s*\(\d{4}\).*/, '').trim();
+                const pureClean = cleanStr(pureTitle);
+                const fullTitleClean = cleanStr(rawTitle);
+                const yearClean = cleanStr(item.year || "");
+                const genreClean = cleanStr(item.genre || "");
+                const catClean = cleanStr(item.category || "");
+                const rawQueryTrim = rawQuery.toLowerCase().trim();
+
+                let score = 0;
+
+                // 🥇 ১ম প্রায়োরিটি: মুভি টাইটেল (Title Matches)
+                if (pureClean === cleanQuery) {
+                    score += 1000; // হুবহু টাইটেল মিলে গেলে (যেমন: শুধু "24")
+                } else if (pureClean.startsWith(cleanQuery)) {
+                    score += 600;  // টাইটেলের শুরুতে মিললে (যেমন: "24 Hours")
+                } else if (fullTitleClean.includes(cleanQuery)) {
+                    score += 300;  // টাইটেলের ভেতরে কোথাও মিললে
+                }
+
+                // টাইটেলের কোনো আলাদা একক শব্দ এক্সাক্ট মিললে বোনাস স্কোর
+                const titleWords = rawTitle.toLowerCase().split(/[^a-z0-9]+/);
+                if (titleWords.includes(rawQueryTrim)) {
+                    score += 200;
+                }
+
+                // 🥈 ২য় প্রায়োরিটি: রিলিজ সাল (Year Matches)
+                if (yearClean === cleanQuery) {
+                    score += 80;   // সম্পূর্ণ ৪ ডিজিটের সাল মিলে গেলে (যেমন: "2024")
+                } else if (yearClean.includes(cleanQuery)) {
+                    score += 25;   // আংশিক সাল মিললে (যেমন: "24" দিয়ে "2024")
+                }
+
+                // 🥉 ৩য় প্রায়োরিটি: জেনার এবং ক্যাটাগরি (Genre & Category)
+                if (genreClean.includes(cleanQuery)) {
+                    score += 15;
+                }
+                if (catClean.includes(cleanQuery)) {
+                    score += 10;
+                }
+
+                return { item, score };
+            })
+            .filter(entry => entry.score > 0)
+            .sort((a, b) => b.score - a.score) // সর্বোচ্চ স্কোরের মুভিগুলো সবার উপরে থাকবে
+            .map(entry => entry.item);
+    } else {
+        libraryData = sourceArray.filter(item => {
+            return filter === "all" || item.category === filter || (filter === "all" && item.category === "Recent Adds");
+        });
+    }
 
     libraryDisplayedCount = initialCount > 0 ? initialCount : ITEMS_PER_PAGE;
     subGrid.dataset.displayedCount = libraryDisplayedCount;
