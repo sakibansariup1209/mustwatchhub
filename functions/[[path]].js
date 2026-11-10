@@ -81,9 +81,14 @@ export async function onRequest(context) {
         if (!moviesRes.ok) throw new Error("JSON database load failed");
         const movies = await moviesRes.json();
 
-        // 🎯 স্ল্যাগ এবং টাইটেল ফ্লেক্সিবল ম্যাচিং
+// 🎯 স্ল্যাগ এবং টাইটেল ম্যাচিং (কাস্টম স্ল্যাগ থাকলে টাইটেল স্ল্যাগ পুরোপুরি বাতিল হবে)
         const targetMovie = movies.find(m => {
-            if (m.slug && m.slug.toLowerCase().trim() === movieSlug) return true;
+            if (!m) return false;
+            // ১. যদি মুভিতে নিজস্ব কাস্টম slug দেওয়া থাকে, তবে শুধুমাত্র সেই slug-ই গ্রাহ্য হবে
+            if (m.slug) {
+                return m.slug.toLowerCase().trim() === movieSlug;
+            }
+            // ২. কাস্টম slug না থাকলেই কেবল টাইটেল থেকে তৈরি ডিফল্ট slug চেক হবে
             if (!m.title) return false;
             const computedSlug = m.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
             return computedSlug === movieSlug;
