@@ -251,7 +251,8 @@ function buildCategoryIndex() {
 function processContentItems() {
     contentData.forEach((item, index) => {
         item.id = index;
-        item.slug = generateMovieSlug(item.title);
+        // 🎯 কাস্টম স্ল্যাগ থাকলে সেটিই ইউআরএল হবে, না থাকলে সাধারণ টাইটেল থেকে তৈরি হবে
+        item.slug = item.slug ? item.slug.toLowerCase().trim() : generateMovieSlug(item.title);
     });
     buildCategoryIndex();
 }
