@@ -196,25 +196,37 @@ export async function onRequest(context) {
             const liveRating = tmdb?.rating || targetMovie.rating || "7.6";
             const liveVotes = tmdb?.votes || targetMovie.votes || "850";
 
+            const cleanVoteCount = parseInt(String(liveVotes).replace(/[^0-9]/g, ''), 10) || 850;
+
             const movieSchema = {
                 "@context": "https://schema.org",
                 "@type": isSeries ? "TVSeries" : "Movie",
                 "name": cleanTitle,
                 "alternateName": `${cleanTitle} (${movieYear})`,
+                "url": currentMovieUrl,
                 "image": moviePosterUrl,
                 "genre": targetMovie.genre || 'Action, Drama',
-                "datePublished": movieYear,
+                "datePublished": `${movieYear}-01-01`,
+                "dateCreated": `${movieYear}-01-01`,
+                "director": {
+                    "@type": "Person",
+                    "name": directorName
+                },
                 "description": synopsis,
                 "keywords": movieKeywords,
-                "inLanguage": isAsianContent ? ["hi", "en"] : ["en", "multi"],
-                "aggregateRating": {
+                "inLanguage": isAsianContent ? ["hi", "en"] : ["en", "multi"]
+            };
+
+            // 🎯 গুগল রিভিউ স্নিপেট শুধুমাত্র Movie টাইপে বৈধ, তাই সিরিজ বাদে মুভিতে রেটিং যুক্ত হবে
+            if (!isSeries) {
+                movieSchema.aggregateRating = {
                     "@type": "AggregateRating",
-                    "ratingValue": liveRating,
+                    "ratingValue": String(liveRating),
                     "bestRating": "10",
                     "worstRating": "1",
-                    "ratingCount": liveVotes
-                }
-            };
+                    "ratingCount": cleanVoteCount
+                };
+            }
             const schemaScript = `<script type="application/ld+json">${JSON.stringify(movieSchema)}</script>`;
             html = html.replace('</head>', `    ${schemaScript}\n</head>`);
 
