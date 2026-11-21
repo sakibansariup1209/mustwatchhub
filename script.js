@@ -68,8 +68,8 @@ async function getClientTMDBDetails(title, year) {
         // 💰 বক্স অফিস কালেকশন (যেমন: $1.02 Billion বা $150.5 Million)
         let revenue = null;
         if (detail.revenue && detail.revenue > 0) {
-            revenue = detail.revenue >= 1000000000 
-                ? `$${(detail.revenue / 1000000000).toFixed(2)} Billion` 
+            revenue = detail.revenue >= 1000000000
+                ? `$${(detail.revenue / 1000000000).toFixed(2)} Billion`
                 : `$${(detail.revenue / 1000000).toFixed(1)} Million`;
         }
 
@@ -83,7 +83,7 @@ async function getClientTMDBDetails(title, year) {
             try {
                 const dateObj = new Date(rawDate);
                 fullReleaseDate = dateObj.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-            } catch(e) {
+            } catch (e) {
                 fullReleaseDate = rawDate;
             }
         }
@@ -423,7 +423,11 @@ const STREAM_SERVER_CONFIG = [
     { key: 'embedUrl3', name: 'Server 3', tag: 'VIP Mirror', enabled: true },
     { key: 'embedUrl4', name: 'Server 4', tag: 'Alternative', enabled: true },
     { key: 'embedUrl5', name: 'Server 5', tag: '4K Ultra HD', enabled: true },
-    { key: 'embedUrl6', name: 'Server 6', tag: 'Backup Server', enabled: true }
+    { key: 'embedUrl6', name: 'Server 6', tag: 'Backup Server', enabled: true },
+    { key: 'embedUrl7', name: 'Server 7', tag: 'Mirror HD', enabled: true },
+    { key: 'embedUrl8', name: 'Server 8', tag: 'Cloud Stream', enabled: true },
+    { key: 'embedUrl9', name: 'Server 9', tag: 'Ultra Mirror', enabled: true },
+    { key: 'embedUrl10', name: 'Server 10', tag: 'Extra Server', enabled: true }
 ];
 
 function renderServerButtons() {
@@ -450,6 +454,7 @@ function renderServerButtons() {
 
         activeServers.forEach((s, idx) => {
             const btn = document.createElement('button');
+            // 🎯 (idx % 6) + 1 থাকায় Server 7, 8, 9, 10 স্বয়ংক্রিয়ভাবে ১-৬ রঙের প্যালেট পাবে
             btn.className = `server-btn server-btn-${(idx % 6) + 1} ${idx === 0 ? 'active' : ''}`;
             btn.innerHTML = `
                 <div class="server-icon-box">
@@ -460,7 +465,6 @@ function renderServerButtons() {
                     <span class="server-tag">${s.tag}</span>
                 </div>
             `;
-            // 🎯 s.key ও প্যারামিটার হিসেবে পাঠানো হলো কন্ডিশন চেক করার জন্য
             btn.onclick = () => playServer(target[s.key], btn, s.key);
             serverList.appendChild(btn);
         });
@@ -2621,7 +2625,7 @@ window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.keyCode === 27) {
         const modal = document.getElementById('movieModal');
         const catMenu = document.getElementById('categoryMenu');
-        
+
         if (modal && modal.classList.contains('active')) {
             closeModal(true, true);
         } else if (catMenu && catMenu.classList.contains('active')) {
